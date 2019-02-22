@@ -14,6 +14,7 @@
       <h1 class="project-name">Evil Dot Plumbing</h1>
    
       <a href="https://evil.plumbing/Current-version-June.pdf" class="btn">2016 Archive - Guillaume Ross and Jordan Rogers</a>
+      <a href="https://evil.plumbing/macadmins2018/index.html" class="btn">2018 Archive - PSUMac Security Workshop</a>
       <a href="https://docs.google.com/spreadsheets/d/1RIgMmVclkEl1y89jIxBZmGOvaFA2Bh3L89dPzaKXCSY/edit?usp=sharing" class="btn">CDM Portfolio Spreadsheet</a>
       
     </section>
@@ -24,87 +25,58 @@
 
 <p>A landing page for a conference talk, or an excuse to buy a cool domain?</p>
 
-Brought to you by <a href="https://caffeinesecurity.com">Caffeine Security</a>
-<br /><img src="//static1.squarespace.com/static/5a06568851a58468b37a1df4/t/5a11d8fd71c10ba553309fc6/1530315467079/?format=1500w" alt="Caffeine Security" width="170">
-
-<h3>
-<a id="media" class="anchor" href="#media" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Media</h3>
-
-
 
 <h3>
 <a id="schedule" class="anchor" href="#schedule" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Schedule</h3>
 
 <ul>
-<li>MacAdmins @ PSU - July 10, 2018</li>
+<li>BsidesSF Workshop - Saturday - March 2 - 9:00</li>
+</ul>
+
+<h3><a id="schedule" class="anchor" href="#schedule" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Action Needed</h3>
+
+<ul>
+<li>Bring at least one Mac or Linux system with osquery, see downloads below.</li>
+<li>Ensure you bring the tools needed, as listed below.</li>
 </ul>
 
 
-<h3>
 
+<h3><a id="resources-and-links" class="anchor" href="#resources-and-links" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Downloads</h3>
 
-<a id="resources-and-links" class="anchor" href="#resources-and-links" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link">
-  
-  
-</span></a>Other Talks and Reading</h3>
+<p><a href="TBD">A Ubuntu VM with osquery pre-installed. Will be available by Wednesday March 27</a></p>
+You can also simply install any Ubuntu above 16.04 and manually download and install the osquery Debian package.<p>
+SSH access to VMs will be provided during workshop, but please do not assume the Wi-Fi will be usable and ensure you have at least one offline option even if it's just osquery directly on your Mac!
+<p><a href="https://osquery.io/downloads/official/3.3.2">osquery downloads for Mac and Linux (Do not use MSI for Windows)</a></p>
 
-<p><a href="https://www.youtube.com/watch?v=ngp-WkXs4mc">Sounil Yu, The Cyber Defense Matrix: A Scientific Model for Cybersecurity</a></p>
+<b>Ubuntu</b>: dpkg -i filename.deb
+<p>
+<b>Mac</b>: Install Package
+
+<p><a href="https://chocolatey.org">Chocolatey Package Manager for Windows - if you bring a Windows VM</a></p>
+
+<b>Windows</b>: choco install osquery
+
+<h3>Testing</h3>
+
+<b>Mac/Linux</b>: Run osqueryi in a shell. It should be in your path.<br>
+In osqueryi, run <i>select * from uptime;</i>
+<p>
+<b>Windows</b>: Run osqueryi from C:\programdata\osquery - it will NOT be in your path.<br>
+In osqueryi, run <i>select * from uptime;</i>
 
 <h3>Tools</h3>
-<p><a href="https://blog.caffeinesecurity.com/creating-a-macos-high-sierra-vm-for-virtualbox-mac-host-bb67eada27af">Setting up a macOS VM</a></p>
-<p><a href="https://osquery.io/downloads/official/3.2.6">Download osquery</a></p>
-<p><a href="https://www.resilio.com/platforms/desktop/">Resilio</a></p>
-<p><a href="https://brew.sh/">Homebrew</a></p>
+1. Make sure to have osquery on at least one Mac or Linux system (VM or otherwise).<br>
+2. Bring an ssh client.<br>
+3. Bring a RDP client.<br>
 
-<h3>Module 1 Links</h3>
-<p><a href="https://response.pagerduty.com/">PagerDuty Incident Response Documentation</a></p>
-<p><a href="https://www.cisecurity.org/controls/">CIS Critical Controls</a></p>
-<p><a href="https://www.nist.gov/cyberframework/framework-resources-0">NIST CSF (Cybersecurity Framework)</a></p>
-<p><a href="https://github.com/joshua-d-miller/macOSLAPS">macOSLAPS</a></p>
-<p><a href="https://IsNotABackup.info">Is this a backup?</a></p>
+<h3>Other Resources</h3>
 
 
+<p><a href="https://bsidessf-slack.herokuapp.com">The BSidesSF Slack</a></p>
 
-<h3>Module 2 Links</h3>
-<p><a href="http://chrome.com/enterprise/#download">Chrome Browser Bundle</a></p>
-<p><a href="https://github.com/timsutton/mcxToProfile">McxToProfile</a></p>
-<p><a href="http://www.chromium.org/administrators/configuring-policy-for-extensions">Configure Chrome via Policies</a></p>
-<p><a href="https://www.chromium.org/administrators/policy-list-3">List of Chrome Policies</a></p>
-
-
-uBlogk Origin ID: cjpalhdlnbpafiamejdnhcphjbkeiagm
-<p><a href="https://blog.caffeinesecurity.com/multi-browser-strategy-on-windows-10-4f19dc4c720d">Multi-browser strategy on Windows 10</a></p>
-
-
-<h3>Module 3 Links</h3>
-<p><a href="https://ai.google/research/pubs/pub43231">BeyondCorp - Original Paper</a></p>
-<p><a href="https://cloud.google.com/beyondcorp/">BeyondCorp References and Services</a></p>
-<p><a href="https://www.blog.google/products/google-cloud/preparing-for-a-beyondcorp-world-at-your-company/">Preparing for a BeyondCorp world at your company</a></p>
-<p><a href="https://securityonion.net/">Security Onion</a></p>
-<p><a href="http://www.testmyids.com/">Test my IDS: Page to generate IDS detection</a></p>
-<p><a href="macadmins2018/2018-06-smb.json.gz">Big SMB Scan - Internet port 445 by @ErrataRob</a></p>
-<p><a href="https://www.pluralsight.com/courses/security-onion-network-security-monitoring">Guillaume's Security Onion training on Pluralsight</a></p>
-<p><a href="https://pluralsight.pxf.io/c/1255669/424552/7490">Start a trial on Pluralsight to watch it!</a></p>
-<p><a href="macadmins2018/Do_Not_Open_This.docx">Honeyfile to leak source IP</a></p>
-
-
-
-<h3>Module 4 Links</h3>
-<p><a href="https://cloudblogs.microsoft.com/microsoftsecure/2016/11/28/disrupting-the-kill-chain/">Disrupting the Kill Chain - Microsoft Attack Kill Chain</a></p>
-<p><a href="cis.zip">CIS Controls PDF and XLSX</a></p>
-<p><a href="https://www.hhs.gov/sites/default/files/ocr/privacy/hipaa/administrative/securityrule/adminsafeguards.pdf?language=es">HIPAA Admin Safeguards</a></p>
-<p><a href="https://www.hhs.gov/sites/default/files/ocr/privacy/hipaa/administrative/securityrule/techsafeguards.pdf?language=es">HIPAA Tech Safeguards</a></p>
-<p><a href="https://docs.google.com/spreadsheets/u/1/d/1RIgMmVclkEl1y89jIxBZmGOvaFA2Bh3L89dPzaKXCSY/edit?usp=sharing">CDM For Portfolios</a></p>
-
-
-<h3>The End - Final Links</h3>
-
-<p><a href="https://bit.ly/psumac2018-264">Workshop Feedback Survey</a></p>
-<p><a href="https://caffeinesecurity.com/services/">Caffeine Security Services</a></p>
-<p><a href="https://pluralsight.pxf.io/c/1255669/448522/7490">Free 10 Day Pluralsight Trial to listen to...</a></p>
-<p><a href="https://www.pluralsight.com/courses/security-onion-network-security-monitoring">Guillaume's Security Onion training on Pluralsight</a></p>
-
-
+A private channel has been created for the workshop on the BsidesSF Slack. DM me there to get added.
+We may use it to copy/paste queries, etc.
 
 
 
