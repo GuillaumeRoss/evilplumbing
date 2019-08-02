@@ -1,0 +1,21 @@
+  // File Paths
+
+  "file_paths": {
+    "homes": [
+      "/root/.ssh/%%",
+      "/home/%/.ssh/%%"
+    ],
+      "etc": [
+      "/etc/%%"
+    ],
+      "home": [
+      "/home/%%"
+    ],
+      "tmp": [
+      "/tmp/%%"
+    ],
+      "www": [
+      "/var/www/%%"
+      ]
+},
+
