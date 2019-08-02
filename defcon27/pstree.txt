@@ -1,0 +1,8 @@
+WITH pstree AS (  
+  SELECT 0 as level, pid, name, parent, name as pparent, uid,  cast(uid as varchar(10)) puid       
+  FROM processes   WHERE parent = 0  
+  UNION ALL
+  SELECT level+1 as level, t.pid, t.name, t.parent, pstree.pparent || '->' || t.name as pparent, t.uid, pstree.puid || '->' || t.uid as puid       
+   FROM processes t   INNER join pstree on t.parent = pstree.pid )     
+SELECT level, pid, name, pparent as process_chain, puid as user_chain  FROM pstree;  
+
