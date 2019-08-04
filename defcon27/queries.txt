@@ -1,0 +1,45 @@
+
+
+# Commands and Queries
+
+## IRC
+
+irssi
+ctrl-n to change "windows" in irssi
+
+irssi + screen howto: https://quadpoint.org/articles/irssi/
+
+## Installing osquery
+sudo dpkg -i /home/learnosquery/files/osquery_3.3.2_1.linux.amd64.deb
+
+## Stitching it together
+
+https://www.uptycs.com/
+https://github.com/zentralopensource/zentral
+https://github.com/kolide/fleet
+https://www.graylog.org/
+
+### Query Packs?
+Copying the sample config file, editing it and launching the daemon
+
+sudo cp osquery.example.conf /etc/osquery/osquery.conf
+sudo (text editor of choice) /etc/osquery/osquery.conf
+sudo systemctl start osqueryd
+
+### Tailing the logs to see if results are being generated
+
+tail -f /var/log/osquery/osqueryd.results.log
+
+## DATES and MATH
+SELECT datetime(local_time, 'unixepoch', 'localtime') AS formatted_time FROM time;
+SELECT path, type, blocks_available, blocks_size FROM mounts WHERE path = '/';
+SELECT path, type, round((blocks_available * blocks_size*10e-10),2) AS gigs_free FROM mounts WHERE path = '/';
+
+## Joins
+
+SELECT p.pid, p.name, u.uid, u.username FROM processes p join users u on u.uid=p.uid;
+
+SELECT users.username, chrome_extensions.name, chrome_extensions.description FROM users CROSS JOIN chrome_extensions USING (uid);
+
+SELECT users.username, shell_history.time, shell_history.command FROM users CROSS JOIN shell_history USING (uid);
+
