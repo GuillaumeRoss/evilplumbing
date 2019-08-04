@@ -42,4 +42,138 @@ SELECT p.pid, p.name, u.uid, u.username FROM processes p join users u on u.uid=p
 SELECT users.username, chrome_extensions.name, chrome_extensions.description FROM users CROSS JOIN chrome_extensions USING (uid);
 
 SELECT users.username, shell_history.time, shell_history.command FROM users CROSS JOIN shell_history USING (uid);
+SELECT * FROM shell_history WHERE shell_history.uid IN (SELECT uid FROM users);
+
+SELECT processes.pid, users.username, processes.path, processes.on_disk FROM processes LEFT JOIN users ON processes.uid = users.uid;
+
+SELECT processes.pid, users.username, processes.path, processes.on_disk FROM processes LEFT JOIN users ON processes.uid = users.uid where processes.on_disk = 0;
+
+
+## Events
+
+osqueryi --audit_allow_config=true --audit_allow_sockets=true --audit_persist=true --disable_audit=false --events_expiry=1 --events_max=50000 --logger_plugin=filesystem  --disable_events=false
+
+Put in /etc/osquery/osquery.flags (excluding ###) or wget from:
+https://evil.plumbing/defcon27/osquery.flags
+
+###
+--audit_allow_config=true
+--audit_allow_sockets=true
+--audit_persist=true
+--disable_audit=false
+--events_expiry=1
+--events_max=50000
+--logger_plugin=filesystem
+--disable_events=false
+###
+
+sudo osqueryi --flagfile /etc/osquery/osquery.flags
+
+### User events
+
+Don't forget you can join...
+
+SELECT * FROM user_events;
+SELECT ue.uid, ue.pid, ue.message, ue.path, u.username FROM user_events ue join users u on u.uid=ue.uid;
+
+
+## Windows
+
+### Lateral movement
+SELECT * FROM process_open_sockets WHERE local_port=(your port(s) here)
+AND remote_address NOT LIKE '0.0.0.0' (WHITELIST HERE);
+
+
+### LAPS
+
+SELECT data, path FROM registry 
+WHERE key LIKE 
+'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft Services\AdmPwd'
+AND name='PasswordLength' 
+AND data < 31;
+
+
+### Office / Split
+
+SELECT username, key, data, split(path, '\', 1) AS reguuid 
+FROM 
+	(SELECT * FROM registry where key like 'HKEY_USERS\%\Software\Policies\Microsoft\office\16.0\%\security' and name='blockcontentexecutionfrominternet' and data!=1)
+JOIN users ON users.uuid = reguuid;
+
+## Containers
+
+sudo docker run -it ubuntu bash
+sudo docker run --rm -it --security-opt seccomp=unconfined debian:jessie
+In another window
+sudo docker run --rm -it --privileged --security-opt seccomp=unconfined debian:jessie
+
+
+## FIM
+
+Paste below the query packs in osquery.conf (also available on https://evil.plumbing/defcon27/fim.txt)
+
+  // File Paths
+
+  "file_paths": {
+    "homes": [
+      "/root/.ssh/%%",
+      "/home/%/.ssh/%%"
+    ],
+      "etc": [
+      "/etc/%%"
+    ],
+      "home": [
+      "/home/%%"
+    ],
+      "tmp": [
+      "/tmp/%%"
+    ],
+      "www": [
+      "/var/www/%%"
+      ]
+},
+
+Starting osqueryi with forced config
+sudo osqueryi --config-path /etc/osquery/osquery.conf --flagfile /etc/osquery/osquery.flags
+
+touch /home/learnosquery/omg.txt
+
+SELECT * FROM file_events;
+
+rm /home/learnosquery/omg.txt
+
+SELECT * FROM file_events;
+
+
+## IOCs
+
+select * from socket_events;
+
+In another window, start pinging 8.8.8.8 constantly
+
+SELECT * FROM process_open_sockets WHERE remote_address in ('8.8.8.8');
+SELECT pid, parent, uid, cmdline FROM processes WHERE cmdline LIKE '%ping%';
+SELECT pid, parent, uid, cmdline FROM processes WHERE cmdline LIKE '%8.8.8.8%';
+
+### Parent processes
+SELECT pid, name path, parent FROM processes WHERE name='rsyslogd';
+Response should be 1
+
+select pid, name, path, parent from processes where pid=1;
+Should be systemd, all normal.
+
+https://evil.plumbing/defcon27/pstree.txt
+
+WITH pstree AS (  
+  SELECT 0 as level, pid, name, parent, name as pparent, uid,  cast(uid as varchar(10)) puid       
+  FROM processes   WHERE parent = 0  
+  UNION ALL
+  SELECT level+1 as level, t.pid, t.name, t.parent, pstree.pparent || '->' || t.name as pparent, t.uid, pstree.puid || '->' || t.uid as puid       
+   FROM processes t   INNER join pstree on t.parent = pstree.pid )     
+SELECT level, pid, name, pparent as process_chain, puid as user_chain  FROM pstree;  
+
+
+Tons of great Windows Examples:
+
+https://github.com/teoseller/osquery-attck/blob/master/windows-incorrect_parent_process.conf
 
