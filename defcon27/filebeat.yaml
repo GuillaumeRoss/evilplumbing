@@ -1,0 +1,34 @@
+###################### Filebeat Configuration Example #########################
+
+# Based on Filebeat Config Example but only has local osquery file and output to graylog
+
+
+#=========================== Filebeat inputs =============================
+
+filebeat.inputs:
+
+# Each - is an input. Most options can be set at the input level, so
+# you can use different inputs for various configurations.
+# Below are the input specific configurations.
+
+- type: log
+
+  # Change to true to enable this input configuration.
+  enabled: true
+
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /var/log/osquery/osqueryd.results.log
+    #- c:\programdata\elasticsearch\logs\*
+
+#================================ Outputs =====================================
+
+output.logstash:
+# The Logstash hosts
+  hosts: ["logs.evil.plumbing:XXXX"]
+
+
+
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
