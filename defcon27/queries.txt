@@ -177,3 +177,69 @@ Tons of great Windows Examples:
 
 https://github.com/teoseller/osquery-attck/blob/master/windows-incorrect_parent_process.conf
 
+## Hashing Process Executables
+
+Ehhh you can figure that one out between yourselves!
+Look at previous examples of joining and hashing.
+
+## Augeas
+
+SELECT * FROM augeas WHERE path='/etc/ssh/sshd_config';
+
+## Extensions 
+
+
+
+https://github.com/trailofbits/osquery-extensions/releases/download/1.1/trailofbits_osquery_extensions-linux-v1.1.zip
+
+osqueryi --allow-unsafe --extension /path/to/your_extension.ext
+SELECT * FROM HostBlackList;
+INSERT INTO HostBlacklist (domain, sinkhole, address_type) VALUES ("evil.plumbing", "127.0.0.1", "ipv4");
+
+## Centralized Logging
+
+Downloading Filebeat
+curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.3.0-amd64.deb
+
+Installing filebeat
+sudo dpkg -i filebeat-7.3.0-amd64.deb
+
+### Filebeat.yml
+
+###################### Filebeat Configuration Example #########################
+
+# Based on Filebeat Config Example but only has local osquery file and output to graylog
+
+
+#=========================== Filebeat inputs =============================
+
+filebeat.inputs:
+
+# Each - is an input. Most options can be set at the input level, so
+# you can use different inputs for various configurations.
+# Below are the input specific configurations.
+
+- type: log
+
+  # Change to true to enable this input configuration.
+  enabled: true
+
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /var/log/osquery/osqueryd.results.log
+    #- c:\programdata\elasticsearch\logs\*
+
+#================================ Outputs =====================================
+
+output.logstash:
+# The Logstash hosts
+  hosts: ["logs.evil.plumbing:XXXX"]
+
+
+
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
+
+
+## Starting Filebeat
