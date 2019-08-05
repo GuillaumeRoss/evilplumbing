@@ -243,3 +243,9 @@ processors:
 
 
 ## Starting Filebeat
+
+filebeat -e -c filebeat.yml -d "publish"
+
+Checking that it's running:
+
+sudo tail -f /var/log/filebeat/*
