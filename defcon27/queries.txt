@@ -51,7 +51,7 @@ SELECT processes.pid, users.username, processes.path, processes.on_disk FROM pro
 
 ## Events
 
-osqueryi --audit_allow_config=true --audit_allow_sockets=true --audit_persist=true --disable_audit=false --events_expiry=1 --events_max=50000 --logger_plugin=filesystem  --disable_events=false
+sudo osqueryi --audit_allow_config=true --audit_allow_sockets=true --audit_persist=true --disable_audit=false --events_expiry=1 --events_max=50000 --logger_plugin=filesystem  --disable_events=false
 
 Put in /etc/osquery/osquery.flags (excluding ###) or wget from:
 https://evil.plumbing/defcon27/osquery.flags
