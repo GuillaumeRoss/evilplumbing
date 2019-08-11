@@ -80,7 +80,7 @@ SELECT ue.uid, ue.pid, ue.message, ue.path, u.username FROM user_events ue join 
 ## Windows
 
 ### Lateral movement
-SELECT * FROM process_open_sockets WHERE local_port=(your port(s) here)
+SELECT * FROM process_open_sockets WHERE local_port=445;
 AND remote_address NOT LIKE '0.0.0.0' (WHITELIST HERE);
 
 
