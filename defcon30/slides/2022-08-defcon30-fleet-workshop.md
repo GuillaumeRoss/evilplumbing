@@ -5,23 +5,11 @@ slidenumbers: true
 
 
 ---
-# Guillaume Ross
+# WHO WE ARE
 
-Head of Security @ Fleet
-I haven't spoken at Northsec in years!
+**Nobody cares!**
 
-Previously at: 
-
-* Finaptic 🪦
-* Uptycs  (Also uses `osquery`!)
-* Nuance
-* Rapid7
-
----
-
-# Kathy Satterlee
-
-ENTER DETAILS HERE
+We work at Fleet. We like security. And open source.
 
 ---
 # WARNING 
@@ -30,6 +18,33 @@ ENTER DETAILS HERE
 
 ![](images/backgrounds/disappear 001 - desktop.jpg)
 
+---
+
+# Pre-requisites
+
+* Docker
+  - Mac and Windows: Desktop
+  - Linux: Installed from Docker and not your distro's packages
+* npm and nodeJS (https://nodejs.org/en/download/)
+  - Mac: `brew install npm` works too
+  - Linux: Recent Ubuntu LTS `apt-get install npm` works too
+
+![](images/backgrounds/disappear 003 - desktop.jpg)
+
+---
+# Pre-requisites (part two)
+
+For troubleshooting, questions, etc, join the #Fleet channel on the osquery Slack.
+
+### https://fleetdm.com/slack
+
+We will both be in there through the workshop AND Fleet staff back at home will be able to help as well.
+
+
+
+![](images/backgrounds/E27A1849.jpg)
+
+---
 ---
 # The workshop
 
@@ -131,27 +146,7 @@ https://fleetdm.com/get-started
 ![](images/backgrounds/E27A1747.jpg)
 
 ---
-# Pre-requisites
 
-* Docker
-  - Mac and Windows: Desktop
-  - Linux: Installed from Docker and not your distro's packages
-* npm and nodeJS (https://nodejs.org/en/download/)
-  - Mac: `brew install npm` works too
-  - Linux: Recent Ubuntu LTS `apt-get install npm` works too
-
-![](images/backgrounds/disappear 003 - desktop.jpg)
-
----
-# Pre-requisites (part two)
-
-* `docker-compose` (python) (dependency being removed as we speak)
-  - Check if `docker-compose` is available in a terminal (Desktop version includes it)
-  - `apt-get install docker-compose`
-
-![](images/backgrounds/E27A1849.jpg)
-
----
 # Installing fleetctl
 Do NOT tell my boss @mikermcneil I pronounce it fleet-cuttle.
 
