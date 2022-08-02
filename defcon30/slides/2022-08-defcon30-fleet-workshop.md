@@ -1,20 +1,19 @@
 slidenumbers: true
 
-# Fleet and osquery - open source device visibility
+# Protect/hunt/respond with Fleet and osquery
 ![inline filtered](images/fleet_logos/fleet-logo-text-white.svg)
 
 
 ---
-# WHO WE ARE
-
-**Nobody cares!**
+# Who we are
 
 We work at Fleet. We like security. And open source.
 
----
-# WARNING 
+**Guillaume** -> Head of security @ Fleet - @gepeto42.
 
-## I pronounce SQL as SQL because I am not wrong and will do so hundreds of times today.
+**Kathy** -> Developer Advocate @ Fleet - @ksatter_dev 
+
+Find us on the #Fleet channel in the osquery Slack!
 
 ![](images/backgrounds/disappear 001 - desktop.jpg)
 
@@ -32,14 +31,15 @@ We work at Fleet. We like security. And open source.
 ![](images/backgrounds/disappear 003 - desktop.jpg)
 
 ---
-# Pre-requisites (part two)
+# Communications
 
-For troubleshooting, questions, etc, join the #Fleet channel on the osquery Slack.
+## Slack
 
-### https://fleetdm.com/slack
+For troubleshooting, questions, etc, join the #Fleet channel on the osquery Slack. : https://fleetdm.com/slack
 
-We will both be in there through the workshop AND Fleet staff back at home will be able to help as well.
+## Google Docs running note
 
+https://bit.ly/3QaL3IP
 
 
 ![](images/backgrounds/E27A1849.jpg)
@@ -48,33 +48,32 @@ We will both be in there through the workshop AND Fleet staff back at home will 
 ---
 # The workshop
 
-    - We will install Fleet in preview mode 
-    - We'll configure it via command line
-    - Create custom osquery installers with Orbit
-    - Use Fleet and osquery to detect unsafe configurations
-    - Use Fleet and osquery to hunt for threats
-    - Integrate it with 3rd party tools!
+Split in 8 "modules"
+
+1. Install Fleet
+2. osquery basics
+3. osquery SQL basics
+4. Fleet policies / detecting dangerous configs
+5. Vulnerability identification
+6. Scheduled queries / gathering data for IR
+7. Integrations
+8. Finding badness using MITRE ATT&CK and osquery
 
 ![](images/backgrounds/E27A1316.jpg)
 
 ---
-# Notes and links
+# Breaks
 
-* Notes and links on Google Docs: https://bit.ly/37W7elB
-  - Keep it open in a tab. We might paste more into it as we go.
+We aren't monsters, we know it's 9am on DEF CON Thursday.
 
-Includes a link to a Google Drive folder - keep for later!
+## 9:45 to 10am -> Break 1 & catch-up 
+## 11:30 to 11:45am -> Break 2
 
 ![](images/backgrounds/gateways 01 - desktop.jpg)
+---
+# Installing Fleet
 
-# Workshop / Support/ Chat
-
-Please join the #Fleet channel on the osquery Slack.
-
-Go to [http://fleetdm.com/slack](http://fleetdm.com/slack) and click "Join the conversation."
-
-^ Why not the discord? Cause we have other Fleeties in our Slack channel, it might help troubleshoot some stuff while I am busy with the workshop.
-
+KATHY YOUR INSTRUCTIONS CAN GO HERE!
 
 ---
 # What is osquery?
