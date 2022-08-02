@@ -85,11 +85,10 @@ KATHY YOUR INSTRUCTIONS CAN GO HERE!
 # osquery basics
 
 * Open source, cross-platform agent
-* Converts your system into a virtual relational database
-
-Ask systems: What files are present? What account exists? Are there unencrypted SSH keys? What startup items run on boot?
-
+* Makes your machine look like an SQL DB
 * ~300 different tables
+
+What's running? Who's logged in? What devices are connected? What's connecting? Huge breadth of data.
 
 **Bookmark this** https://osquery.io/schema/
 
@@ -100,16 +99,16 @@ Ask systems: What files are present? What account exists? Are there unencrypted 
 ---
 # How osquery works
 
-* `osqueryi`: terminal/interactive version
+* `osqueryi`: terminal/interactive version (or `orbit shell` if installed via orbit)
 * `osqueryd` - daemon
-* Configured with local files or over TLS (Fleet!)
+* Configured with local files or over TLS
 * Logs locally, over TLS (Fleet!) or other outputs.
 * If using osquery over TLS, real-time queries can be performed.
-```test```
 
 ![](images/backgrounds/disappear 002 - desktop.jpg)
 
 ---
+
 # What is Fleet?
 
 * [https://github.com/fleetdm/fleet](https://github.com/fleetdm/fleet)
@@ -119,38 +118,61 @@ Fleet is the most widely used open source, osquery manager. Deploying osquery wi
 ![](images/backgrounds/E27A1645.jpg)
 
 ---
-# What we'll run
+# Installing osquery
 
-1) Fleet in preview mode on your laptop
-2) VMs pointing to a centralized Fleet server (not "real" ones!)
-3) A VM or your laptop with vanilla osquery to test local things
-4) A free account on Tines to try orchestration
+Two ways:
 
-^ So we are going to play with Fleet in preview mode on your laptops first. You'll get to see Fleet running locally, and it'll start up Dockerized simulated Linux hosts. It will also run a dockerized osquery on your laptop. The data will not be sent anywhere except to the local Fleet instance. Then, we'll see how you can generate Fleet installers pointed to a centralized server I've got here. Don't install that on your actual work machine because we will all be able to query the devices connected to it. Finally, we'll also run vanilla osquery locally, and you can do that either directly on your laptop's host operating system or in a clean VM of any operating system.
-
-![](images/backgrounds/E27A1711.jpg)
+1. Regular osquery package + configure to connect to Fleet
+2. With Fleet Orbit packages - pre-configured and with automatic updates 😍
 
 ---
-# How we'll work
+# Generating a package with Orbit
 
-* Feel free to post questions in the Slack channel (#Fleet on osquery Slack)
-* Team up to brainstorm queries together
-* Please be nice on the shared server - I don't want to rebuild it live 😅
-* You'll suggest use cases and we can brainstorm them together and on Slack as well! 
+1. Log in to your Fleet instance
+2. Browse to hosts
+3. Click add hosts.
+
+---
+# Exercise - Create osquery package that connects to Fleet1.evil.plumbing instance
+
+1. Generate it with commands available in the Google Docs.
+2. Install resulting package in one of your VMs (WITHOUT CONFIDENTIAL DATA - WE WILL BE ABLE TO READ FROM IT!)
+
+---
+# BREAK
+
+Resuming in 15m.
+
+If anyone had issues installing Fleet or using `fleetctl` to make packages, perfect time to catch up!
+
+
+
+---
+# Workshop setup
+
+1. Your local Fleet setup - where you can create policies etc.
+2. The centralized Fleet setup -> https://fleet1.evil.plumbing
+
+Usernames will be/have been passed.
+
+## Log in and update your password!
+
+Don't be annoying, if we have to restore backups we'll lose 20m. Nobody would do annoying stuff at DEF CON right??
 
 ![](images/backgrounds/gateways 02 - desktop.jpg)
 
 ---
+# osquery SQL basics
 
-# Let's get rolling!
+Try these queries either:
 
-Let's get a test Fleet environment running!
-
-https://fleetdm.com/get-started
+1. On your own Fleet.
+2. On the centralized Fleet, targeting one of your VMs (to avoid 80 people querying everyone's machines non stop).
 
 ![](images/backgrounds/E27A1747.jpg)
 
 ---
+TODO: REMOVE THIS IF WE REPLACE IT ALL WITH THE DOCKER SETUP BY KATHY
 
 # Installing fleetctl
 Do NOT tell my boss @mikermcneil I pronounce it fleet-cuttle.
@@ -192,8 +214,6 @@ Run it on all hosts. Did they all reply including your laptop host?
 
 `SELECT username FROM users ORDER BY username;`
 
-Run it against your actual host.
-
 ![](images/backgrounds/E27A2199.jpg)
 
 ---
@@ -210,20 +230,20 @@ Run it against your actual host.
 ![](images/backgrounds/disappear 004 - desktop.jpg)
 
 ---
-# SQL: Your turn
-
-Take 5 minutes
+# Exercise: SQL
 
 1. Look at the osquery schema.
 2. Find a way to query a few of those:
   - Is disk encryption enabled? 
-  - What Linux kernel modules are loaded?
+  - What Linux kernel modules are loaded? (feel free to query Linux VMs that are not your own if needed)
   - Does the file `/etc/hosts` exist on the system?
+  - Are USB devices present?
+  - How long have systems been up?
 
 ![](images/backgrounds/pop skullture satanic - desktop.jpg)
 
 ---
-# SQL: Your turn
+# Exercise: SQL - What did you come up with?
 
 Time to look at your examples!
 
