@@ -45,7 +45,6 @@ https://bit.ly/3QaL3IP
 ![](images/backgrounds/E27A1849.jpg)
 
 ---
----
 # The workshop
 
 Split in 8 "modules"
@@ -70,13 +69,20 @@ We aren't monsters, we know it's 9am on DEF CON Thursday.
 ## 11:30 to 11:45am -> Break 2
 
 ![](images/backgrounds/gateways 01 - desktop.jpg)
+
+---
+# Why install Fleet before basics?
+
+We want to be sure everyone is able to get Fleet up to make it easy to query osquery later. 
+
+DO NOT HESITATE to ask questions in person or on Slack - you need a Fleet instance to work!
+
 ---
 # Installing Fleet
-
 KATHY YOUR INSTRUCTIONS CAN GO HERE!
 
 ---
-# What is osquery?
+# osquery basics
 
 * Open source, cross-platform agent
 * Converts your system into a virtual relational database
