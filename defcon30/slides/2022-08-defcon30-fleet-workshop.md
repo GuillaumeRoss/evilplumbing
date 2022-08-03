@@ -78,8 +78,130 @@ We want to be sure everyone is able to get Fleet up to make it easy to query osq
 DO NOT HESITATE to ask questions in person or on Slack - you need a Fleet instance to work!
 
 ---
-# Installing Fleet
-KATHY YOUR INSTRUCTIONS CAN GO HERE!
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                 │
+│          ###                                                                    │
+│           #  #    #  ####  #####   ##   #      #      # #    #  ####            │
+│           #  ##   # #        #    #  #  #      #      # ##   # #    #           │
+│           #  # #  #  ####    #   #    # #      #      # # #  # #                │
+│           #  #  # #      #   #   ###### #      #      # #  # # #  ###           │
+│           #  #   ## #    #   #   #    # #      #      # #   ## #    #           │
+│          ### #    #  ####    #   #    # ###### ###### # #    #  ####            │
+│                                                                                 │
+│                       #######                                                   │
+│                       #       #      ###### ###### #####                        │
+│                       #       #      #      #        #                          │
+│                       #####   #      #####  #####    #                          │
+│                       #       #      #      #        #                          │
+│                       #       #      #      #        #                          │
+│                       #       ###### ###### ######   #                          │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+# Local setup
+
+This setup is local and private to you **except** for status logs and scheduled queries.
+THIS SETUP IS FOR THE WORKSHOP ONLY NEVER USE THIS "FOR REAL" 
+
+
+```
+┌─────────────────────────────────────────────┐                                
+│Docker setup for workshop                    │                                
+│ ┌─────┐ ┌─────┐ ┌─────┐  ┌─────┐  ┌─────┐   │       ┌───────────────────────┐
+│ │Fleet│ │mysql│ │redis│  │proxy│  │beat │─ ─│─ ─ ─ ─▶graylog1.evil.plumbing │
+│ └─────┘ └─────┘ └─────┘  └─────┘  └─────┘   │       └───────────────────────┘
+└─────────────────────────────────────────────┘                                
+```
+
+---
+* Clone the `defcon` branch of Kathy's repo:
+
+`git clone -b defcon https://github.com/ksatter/fleet-docker.git`
+
+* Make sure Docker is installed and running.
+* Navigate to the directory `cd fleet-docker`
+* Run `docker compose up`
+
+Fleet will accessible at `fleet.traefik.me`
+
+**More instructions in README.md in the repo's defcon branch**
+
+
+---
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                 │
+│                                                                                 │
+│                ______           __             ___                __            │
+│               / ____/__  ____  / /__________ _/ (_)___  ___  ____/ /            │
+│              / /   / _ \/ __ \/ __/ ___/ __ `/ / /_  / / _ \/ __  /             │
+│             / /___/  __/ / / / /_/ /  / /_/ / / / / /_/  __/ /_/ /              │
+│             \____/\___/_/ /_/\__/_/   \__,_/_/_/ /___/\___/\__,_/               │
+│                                                                                 │
+│                              _____      __                                      │
+│                             / ___/___  / /___  ______                           │
+│                             \__ \/ _ \/ __/ / / / __ \                          │
+│                            ___/ /  __/ /_/ /_/ / /_/ /                          │
+│                           /____/\___/\__/\__,_/ .___/                           │
+│                                              /_/                                │
+│                                                                                 │
+│                                                                                 │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+```
+   ┌───────────────────────┐     ┌───────────────────────┐
+   │                       │     │                       │
+   │                       │     │                       │
+   │ fleet1.evil.plumbing  │────▶│graylog1.evil.plumbing │
+   │                       │     │                       │
+   │                       │     │                       │
+   └───────────▲───────────┘     └───────────────────────┘
+               │                                          
+        ┌──────┴──────┐                                   
+┌───────┼─────────────┼───────┐                           
+│       │             │       │                           
+│  ┌─────────┐   ┌─────────┐  │                           
+│  │ osquery │   │ osquery │  │                           
+│  └─────────┘   └─────────┘  │                           
+│    Pre-built installers     │                           
+└─────────────────────────────┘                           
+```
+
+---
+We also have a centralized Fleet server for everyone to use.
+
+* https://fleet1.evil.plumbing
+* Your usernames are on your desks. 
+* Password for first logon: DEFCON2022workshop!
+* Pre-generated installers point there
+
+1. Log in now and set your password!
+2. Generate an installer with `fleetctl` (see Add Hosts, or the shared Docs for full commands)
+3. Install the package on a VM **for testing**, without confidential data.
+
+---
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│      __________  _________  ______   _____ __  ______________________________   │
+│     / ____/ __ \/ ____/   |/_  __/  / ___// / / / ____/ ____/ ____/ ___/ ___/   │
+│    / / __/ /_/ / __/ / /| | / /     \__ \/ / / / /   / /   / __/  \__ \\__ \    │
+│   / /_/ / _, _/ /___/ ___ |/ /     ___/ / /_/ / /___/ /___/ /___ ___/ /__/ /    │
+│   \____/_/ |_/_____/_/  |_/_/     /____/\____/\____/\____/_____//____/____/     │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+You now have:
+
+1. A mostly private local Fleet setup.
+2. VM(s) pointing to our centralized workshop Fleet server.
+3. An account to log in to https://fleet1.evil.plumbing
 
 ---
 # osquery basics
@@ -212,12 +334,16 @@ Run it on all hosts. Did they all reply including your laptop host?
 * Uses SQLite
 * Standard SQL
 
+https://osquery.readthedocs.io/en/stable/introduction/sql/
+
 `SELECT username FROM users ORDER BY username;`
 
 ![](images/backgrounds/E27A2199.jpg)
 
 ---
-# SQL
+# SQL in osquery
+
+Mostly READING from tables. Sometimes just a single table.
 
 `SELECT * FROM users;`
 
@@ -252,13 +378,13 @@ Time to look at your examples!
 ![](images/backgrounds/gateways 03 - desktop.jpg)
 
 ---
-# SQL - filtering
+# SQL - filter what you need only
 
 * Select only the columns you need: `SELECT column1, column2 FROM table;`
 * Filter with WHERE: `SELECT column1, column2 FROM table WHERE column1 'string';`
 * Wildcards with LIKE: `SELECT column1, column2 FROM table WHERE column2 LIKE '%potato%';`
 
-`%` matches any sequence. `_` matches a single character. For file paths, `%` can be used in a directory: `/Users/%/Downloads`
+`%` matches any sequence. `_` matches a single character. For file paths, `%` can be used in a directory: `/etc/%/*.conf`
 
 ![](images/backgrounds/E27A3247.jpg)
 
@@ -273,7 +399,7 @@ WITH pstree AS (
   FROM processes   WHERE parent = 0  
   UNION ALL
   SELECT level+1 as level, t.pid, t.name, t.parent, pstree.pparent || '->' || t.name as pparent, t.uid, pstree.puid || '->' || t.uid as puid       
-   FROM processes t   INNER join pstree on t.parent = pstree.pid )     
+  FROM processes t   INNER join pstree on t.parent = pstree.pid )     
 SELECT level, pid, name, pparent as process_chain, puid as user_chain  FROM pstree;  
 ```
 
@@ -965,3 +1091,20 @@ Suggest use cases in Slack. The one that gets the most emoji reactions is the on
 Wallpapers provided by the great Rob Sheridan!
 
 ![original](images/backgrounds/fleet-wallpaper_desktop - 5120x2880.jpg)
+
+
+---
+
+# MITRE ATT&CK and osquery for hunting
+
+## https://attack.mitre.org/
+
+We'll pick a few techniques and see how we can hunt for them.
+
+---
+# T1053 - Scheduled tasks / Cron jobs
+
+1. Create a query for T1053.002
+2. Which Windows machine on Fleet1 has weird scheduled tasks?
+
+---
