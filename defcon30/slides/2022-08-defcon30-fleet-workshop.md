@@ -24,9 +24,10 @@ Find us on the #Fleet channel in the osquery Slack!
 * Docker
   - Mac and Windows: Desktop
   - Linux: Installed from Docker and not your distro's packages
-* npm and nodeJS (https://nodejs.org/en/download/)
+*  nodeJS (https://nodejs.org/en/download/)
   - Mac: `brew install npm` works too
   - Linux: Recent Ubuntu LTS `apt-get install npm` works too
+  - Windows: get it straight from node
 
 ![](images/backgrounds/disappear 003 - desktop.jpg)
 
@@ -37,9 +38,13 @@ Find us on the #Fleet channel in the osquery Slack!
 
 For troubleshooting, questions, etc, join the #Fleet channel on the osquery Slack. : https://fleetdm.com/slack
 
+---
+
 ## Google Docs running note
 
 https://bit.ly/3QaL3IP
+
+![inline](images/qr_codes.png)
 
 
 ![](images/backgrounds/E27A1849.jpg)
@@ -49,14 +54,18 @@ https://bit.ly/3QaL3IP
 
 Split in 8 "modules"
 
-1. Install Fleet
-2. osquery basics
-3. osquery SQL basics
-4. Fleet policies / detecting dangerous configs
-5. Vulnerability identification
-6. Scheduled queries / gathering data for IR
-7. Integrations
-8. Finding badness using MITRE ATT&CK and osquery
+* Install Fleet
+* osquery basics
+* osquery SQL basics
+* Fleet policies / detecting dangerous configs
+
+---
+# The workshop
+
+* Vulnerability identification
+* Scheduled queries / gathering data for IR
+* Integrations
+* Finding badness using MITRE ATT&CK and osquery
 
 ![](images/backgrounds/E27A1316.jpg)
 
@@ -129,6 +138,18 @@ Fleet will accessible at `fleet.traefik.me`
 
 **More instructions in README.md in the repo's defcon branch**
 
+---
+# Install `fleetctl`
+
+Command line tool for managing Fleet and generating osquery packages.
+
+0. Install it from the *releases* page https://github.com/fleetdm/fleet/releases
+
+OR 
+
+1. Make sure node is installed and `npm` is available.
+2. `sudo npm install -g fleetctl` (On Windows, replace sudo with using an admin `cmd/PowerShell`)
+
 
 ---
 ```
@@ -183,7 +204,8 @@ We also have a centralized Fleet server for everyone to use.
 
 1. Log in now and set your password!
 2. Generate an installer with `fleetctl` (see Add Hosts, or the shared Docs for full commands)
-3. Install the package on a VM **for testing**, without confidential data.
+3. Install the package on a VM **for testing**, without REAL data
+
 
 ---
 ```
@@ -247,41 +269,27 @@ Two ways:
 1. Regular osquery package + configure to connect to Fleet
 2. With Fleet Orbit packages - pre-configured and with automatic updates 😍
 
----
-# Generating a package with Orbit
+You've already done #2!
 
-1. Log in to your Fleet instance
-2. Browse to hosts
-3. Click add hosts.
 
 ---
-# Exercise - Create osquery package that connects to Fleet1.evil.plumbing instance
-
-1. Generate it with commands available in the Google Docs.
-2. Install resulting package in one of your VMs (WITHOUT CONFIDENTIAL DATA - WE WILL BE ABLE TO READ FROM IT!)
-
----
-# BREAK
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│              ____  ____  _________    __ __    ____________  _________          │
+│             / __ )/ __ \/ ____/   |  / //_/   /_  __/  _/  |/  / ____/          │
+│            / __  / /_/ / __/ / /| | / ,<       / /  / // /|_/ / __/             │
+│           / /_/ / _, _/ /___/ ___ |/ /| |     / / _/ // /  / / /___             │
+│          /_____/_/ |_/_____/_/  |_/_/ |_|    /_/ /___/_/  /_/_____/             │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
 
 Resuming in 15m.
 
 If anyone had issues installing Fleet or using `fleetctl` to make packages, perfect time to catch up!
 
-
-
----
-# Workshop setup
-
-1. Your local Fleet setup - where you can create policies etc.
-2. The centralized Fleet setup -> https://fleet1.evil.plumbing
-
-Usernames will be/have been passed.
-
-## Log in and update your password!
-
-Don't be annoying, if we have to restore backups we'll lose 20m. Nobody would do annoying stuff at DEF CON right??
-
 ![](images/backgrounds/gateways 02 - desktop.jpg)
+
 
 ---
 # osquery SQL basics
@@ -294,18 +302,11 @@ Try these queries either:
 ![](images/backgrounds/E27A1747.jpg)
 
 ---
-TODO: REMOVE THIS IF WE REPLACE IT ALL WITH THE DOCKER SETUP BY KATHY
+# Target a single device with a query
 
-# Installing fleetctl
-Do NOT tell my boss @mikermcneil I pronounce it fleet-cuttle.
+![inline](images/target_single_device.png)
 
-`sudo npm install -g fleetctl` (On Windows, replace sudo with using an admin `cmd/PowerShell`)
 
-# Running it
-
-`sudo fleetctl preview` (Same as previous for Windows)
-
-![](images/backgrounds/E27A2047.jpg)
 
 ---
 # What happens in preview mode
@@ -324,7 +325,7 @@ Do NOT tell my boss @mikermcneil I pronounce it fleet-cuttle.
 
 `SELECT * from osquery_info;`
 
-Run it on all hosts. Did they all reply including your laptop host?
+Run it on one of your VMs. Did you get data back?
 
 ![](images/backgrounds/E27A2138.jpg)
 
@@ -336,7 +337,7 @@ Run it on all hosts. Did they all reply including your laptop host?
 
 https://osquery.readthedocs.io/en/stable/introduction/sql/
 
-`SELECT username FROM users ORDER BY username;`
+
 
 ![](images/backgrounds/E27A2199.jpg)
 
@@ -350,6 +351,7 @@ Mostly READING from tables. Sometimes just a single table.
 `SELECT * FROM crontab;`
 
 `SELECT * FROM processes;`
+
 
 ^ By the way - using uppercase for SELECT and FROM here is just to make the queries more legible. It would work without that.
 
@@ -380,8 +382,14 @@ Time to look at your examples!
 ---
 # SQL - filter what you need only
 
-* Select only the columns you need: `SELECT column1, column2 FROM table;`
-* Filter with WHERE: `SELECT column1, column2 FROM table WHERE column1 'string';`
+* Select only the columns you need: `SELECT username, uid FROM users;`
+* Filter with WHERE: `SELECT username, uid FROM users WHERE username = 'guillaume'; 
+
+Which Windows machine on Fleet1 has a user called `guillaume`?
+
+---
+# SQL - wirldcards
+`
 * Wildcards with LIKE: `SELECT column1, column2 FROM table WHERE column2 LIKE '%potato%';`
 
 `%` matches any sequence. `_` matches a single character. For file paths, `%` can be used in a directory: `/etc/%/*.conf`
@@ -418,9 +426,9 @@ The previously shown query uses the processes table, cross-platform.
 
 This is a snapshot of what is happening. 
 
-What potential issue could this create if not taken into account?
+* How would you find a specific process that you know is running?
+* What potential issue could this create if we don't consider that this is a snapshot?
 
-How would you find a specific process that you know is running?
 
 ![](images/backgrounds/gateways 04 - desktop.jpg)
 
@@ -433,9 +441,18 @@ These questions require a "per-user" answer. They have a **UID** column.
 
 The *users* table also has a **UID** column.
 
+![](images/backgrounds/E27A8079.jpg) 
+
+---
+
 ### Try this
 
 `SELECT * FROM table_with_uids WHERE table_with_uids.uid IN (SELECT uid FROM users);`
+
+Use one of these:
+* `chrome_extensions`
+*  `firefox_addons` 
+* `safari_extensions`
 
 ![](images/backgrounds/E27A3522.jpg)
 
@@ -513,16 +530,6 @@ OS permissions also apply, which is why you are likely getting no results now. I
 Then, there are settings per type of events.
 
 ![](images/backgrounds/E27A2085bw.jpg)
-
----
-# Install vanilla osquery on another VM
-
-If you have an available Linux VM (not used for the Fleet preview), install osquery.
-https://osquery.io/downloads/official/5.2.3
-
-^ Connect to nsecosquery2.evil.plumbing - it is a vanilla Ubuntu. Then wget the deb and install it, run osqueryi. If broken, use nsecosquery1.evil.plumbing which is already set up.
-
-![](images/backgrounds/E27A8079.jpg) 
 
 ---
 # On vanilla osqueryi
