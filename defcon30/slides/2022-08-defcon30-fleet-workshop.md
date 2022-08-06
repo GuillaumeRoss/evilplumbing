@@ -38,6 +38,9 @@ Find us on the #Fleet channel in the osquery Slack!
 
 For troubleshooting, questions, etc, join the #Fleet channel on the osquery Slack. : https://fleetdm.com/slack
 
+![](images/backgrounds/E27A8193.jpg)
+
+
 ---
 
 ## Google Docs running note
@@ -58,6 +61,8 @@ Split in 8 "modules"
 * osquery basics
 * osquery SQL basics
 * Fleet policies / detecting dangerous configs
+
+![](images/backgrounds/E27A8324.jpg)
 
 ---
 # The workshop
@@ -86,6 +91,9 @@ We want to be sure everyone is able to get Fleet up to make it easy to query osq
 
 DO NOT HESITATE to ask questions in person or on Slack - you need a Fleet instance to work!
 
+![](images/backgrounds/disappear 007 - desktop.jpg)
+
+
 ---
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
@@ -108,6 +116,8 @@ DO NOT HESITATE to ask questions in person or on Slack - you need a Fleet instan
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+![](images/backgrounds/E27A8783.jpg)
 
 ---
 # Local setup
@@ -571,52 +581,29 @@ In another terminal on the same machine (ssh, screen, anything), run a few comma
 
 ![](images/backgrounds/E27A8190.jpg)
 
----
-# Generating pre-configured osquery installers with fleetctl
 
-* Do this on the machine you installed `fleetctl`.
-* Go to your Fleet instance. On **Hosts** - click **Add new hosts**.
-
-You will see the command to generate the package. 
-
-**Warning**: the preview will not listen on all interfaces and you will likely have a hard time adding hosts. Let's generate a package for `nsecfleet2.evil.plumbing` instead!
-
-^ The Docker setup for Fleet preview is not meant to listen to the Internet, does not have proper SSL setup etc. In an actual deployment, this is how you would create your Fleet packages. On macOS, signing and notarization is supported!
-
-![](images/backgrounds/E27A8193.jpg)
 
 ---
-# My server...
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ ___      _          _   _                _                                      │
+│|   \ ___| |_ ___ __| |_(_)_ _  __ _   __| |__ _ _ _  __ _ ___ _ _ ___ _  _ ___  │
+│| |) / -_)  _/ -_) _|  _| | ' \/ _` | / _` / _` | ' \/ _` / -_) '_/ _ \ || (_-<  │
+│|___/\___|\__\___\__|\__|_|_||_\__, | \__,_\__,_|_||_\__, \___|_| \___/\_,_/__/  │
+│                               |___/                 |___/                       │
+│              __ _                                                               │
+│ __ ___ _ _  / _(_)__ _ ___                                                      │
+│/ _/ _ \ ' \|  _| / _` (_-<                                                      │
+│\__\___/_||_|_| |_\__, /__/                                                      │
+│                  |___/                                                          │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
 
-I should be seeing some of your VMs pop-up. 
-
-**DON'T POINT YOUR REAL MACHINE TO THIS** as we will all have access to query it!
-Feel free to point Mac VMs, Linux VMs, Windows VMs!
-
-https://nsecfleet2.evil.plumbing:8080
-Username: `workshop@evil.plumbing`
-Password: `urea-BANDANA-fireside2`
+# Using Fleet policies
 
 ![](images/backgrounds/ghost in the machine - desktop.jpg)
 
----
-# Observer account
 
-As you can see, on my server, you have access to predefined queries at the moment.
-
-**Great** for giving some access for support cases, but without having people have creepy levels of access to endpoints.
-
-![](images/backgrounds/E27A8193.jpg)
-
----
-# What we have so far
-
-1. Local preview instances, with our own laptops enrolled.
-2. Random VMs pointed to a centralized server (https://nsecfleet2.evil.plumbing:8080)
-
-We'll refer to these as **preview** and **nsecfleet** instances.
-
-![](images/backgrounds/E27A8271.jpg)
 
 ---
 # Policies
@@ -630,80 +617,40 @@ E.g., `SELECT 1 WHERE 1=1;` will always pass.
 ![](images/backgrounds/E27A8278.jpg)
 
 ---
-# Making things faster
 
-By default - policies update hourly and the webhooks for integrations once a day.
+We previously had a query to find users called "guillaume":
 
-Let's use `fleetctl` to update that.
+`SELECT username, uid FROM users WHERE username = 'guillaume';`
 
-![](images/backgrounds/E27A8324.jpg)
+If we used this as a policy - it would pass when a user called guillaume exists, and fail otherwise.
 
----
-# Log in with `fleetctl`
+Simplified:
 
-1. Configure `fleetctl` to point to your localhost, no HTTPS instance.
+`SELECT 1 FROM users WHERE username = 'guillaume';`
 
-`sudo fleetctl config set --address http://localhost:1337 --tls-skip-verify`
-
-2. Log in to the instance.
-
-`sudo fleetctl login`
-
-![](images/backgrounds/E27A8338.jpg)
+![](images/backgrounds/E27A8193.jpg)
 
 ---
-# Applying a config with `fleetctl`
+# Exercise - Policies
 
-Create a file called `config.yml` with this content:
+Create a few policies for things we have previously queried for.
 
-```yaml
-apiVersion: v1
-kind: config
-spec:
-  webhook_settings:
-    interval: 1m
-```
+Examples:
 
-Or grab it from the Google Drive.
+Is a specific Chrome extension installed?
+Is disk encryption enabled?
+Has the machine been rebooted in the last 30 days?
+Is the machine running a specific version of an app or OS or newer?
 
-![](images/backgrounds/E27A8388.jpg)
+**If creating them on Fleet1, prefix policy name with your username/number**
 
----
-# Applying a config with `fleetctl`
 
-`sudo fleetctl apply -f config.yml`
 
-Why is this useful? Make sure you have the correct config, put it in CI/CD pipelines, avoid human error, etc!
+![](images/backgrounds/E27A8271.jpg)
 
-![](images/backgrounds/E27A8466.jpg)
 
 ---
-# What did we change?
-
-`webhook_settings.interval` to one minute instead of 24 hours, so when we configure policy automation, they'll get triggered super fast.
-
-![](images/backgrounds/E27A8550.jpg)
-
----
-# Check the effective config
-
-1. Open dev tools in your browser.
-2. Reload
-3. Look for `config` - check response data.
-
-![](images/backgrounds/video rental sticker - vhs - desktop.jpg)
-
----
-# Disk encryption
-
-On your **preview** - you should have three policies for disk encryption. 
-
-Do you have hosts passing/failing them?
-
-![](images/backgrounds/disappear 005 - desktop.jpg)
-
----
-# Firewall
+# Exercise - Firewall policy
 
 Can you write a policy to check if the firewall is enabled?
 
@@ -717,7 +664,7 @@ Pick the OS you want.
 ![](images/backgrounds/E27A8570.jpg)
 
 ---
-# Firewall
+# Answer - Firewall
 
 ## macOS
 `SELECT 1 FROM alf WHERE global_state >= 1;`
@@ -726,7 +673,7 @@ Pick the OS you want.
 ![](images/backgrounds/E27A8625.jpg)
 
 ---
-# Firewall
+# Answer - Firewall
 
 ## Windows
 We do not have a table for firewall status itself, but `windows_security_center` has a firewall column!
@@ -734,6 +681,153 @@ We do not have a table for firewall status itself, but `windows_security_center`
 `SELECT 1 FROM windows_security_center WHERE firewall='good';`
 
 ![](images/backgrounds/E27A8691.jpg)
+
+---
+# "Negative" policies
+
+Policies where you want the LACK of results to be a PASS.
+
+Ex: Laptops should not have unencrypted SSH keys.
+
+
+`SELECT 1 WHERE NOT EXISTS (SELECT 1 FROM users CROSS JOIN user_ssh_keys USING (uid) WHERE encrypted='0');`
+
+---
+`SELECT 1 WHERE NOT EXISTS (SELECT 1 FROM users CROSS JOIN user_ssh_keys USING (uid) WHERE encrypted='0');`
+
+What we are doing: 
+
+Selecting 1 so the policy passes IF "not exists" (select 1 if there are keys that are unencrypted).
+
+---
+
+# Create an unencrypted SSH key on one of your VMs
+
+If you are on Mac or Linux.
+
+`ssh-keygen -t rsa -b 4096 -C "your_email@domain.lulz"` -> Make sure you don't overwrite your real keys. But store it in your `.ssh` (e.g., `/Users/g/.ssh/unencrypted_ssh_rsa.pub`)
+
+That VM should start failing that policy!
+
+![](images/backgrounds/E27A3406a.jpg)
+
+
+---
+# Exercise - App installed and up to date
+
+Name some apps you think should be either:
+
+1) NOT installed at all.
+2) Installed and up to date.
+
+i.e.: You want to be alerted if someone has an old version of the app, but not if they do not have the app at all.
+
+---
+
+`SELECT 1 WHERE EXISTS (SELECT 1 FROM apps a3 WHERE a3.bundle_identifier = 'org.mozilla.firefox' AND a3.bundle_short_version>='100.0') OR NOT EXISTS (SELECT 1 FROM apps a2 WHERE a2.bundle_identifier = 'org.mozilla.firefox')`
+
+![](images/backgrounds/E27A8338.jpg)
+
+---
+```
+┌───────────────────────────────────────────────────────────────┐
+│  _   _   _   _   _   _   _   _   _   _   _   _   _   _   _    │
+│ / \ / \ / \ / \ / \ / \ / \ / \ / \ / \ / \ / \ / \ / \ / \   │
+│( V | u | l | n | e | r | a | b | i | l | i | t | i | e | s )  │
+│ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/   │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+```
+
+1. Enabled by default. No scanning needed
+2. Grabs inventory of software -> apps/programs, tools installed via package managers (brew for example), etc.
+3. Matches that against NVD database of vulnerabilities.
+
+
+![](images/backgrounds/E27A8388.jpg)
+
+---
+# Vulnerability automations
+
+1. Requires admin privileges to setup (so check it out on your local deployment).
+2. Integrates with:
+  * Webhooks (anything)
+  * Jira
+  * Zendesk
+  * More soon...
+  
+![](images/backgrounds/E27A8466.jpg)
+
+---
+# On your local stack
+
+Point automations to my Tines Webhook now - we'll look later to see the results!
+
+URL (also on Docs for easy copy-pasta):
+
+https://rustling-snow-6608.tines.com/webhook/0fe6acf0c2b62cdf527eeffdbcefb7a3/1ebd48b0aa19e1954791e30eda28eb69
+
+![](images/backgrounds/E27A8550.jpg)
+
+---
+# Scheduled queries
+
+### Why?
+
+Things you want to keep historic data about. What's installed on our servers? What SSH keys were present on our machines?
+### How
+
+1. Create and save a query.
+2. Schedule it!
+
+![](images/backgrounds/disappear 005 - desktop.jpg)
+
+
+---
+# Exercise - scheduled queries
+
+On your *LOCAL STACKS* - schedule 2-3 queries to run every 15 minutes.
+
+**NOTE**: The logs from this will go to a centralized server, do not query confidential information!
+
+---
+
+# Scheduled queries - recorded where?
+
+https://fleetdm.com/docs/using-fleet/osquery-logs
+
+Many options including: 
+* Filesystem (grab it from there with Filebeat for example)
+* Snowflake
+* Splunk
+* Firehose
+* Kinesis
+* Kafka
+* More!
+
+![](images/backgrounds/video rental sticker - vhs - desktop.jpg)
+
+---
+# Logging - example
+
+Open `fleet-docker/filebeat/filebeat.yml`
+
+It is simply pointed to log files:
+
+```
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /fleet/logs/*.log
+ #   - /var/log/*.log
+    - /tmp/*.log
+```
+
+---
+# Logging - example
+Look at `fleet-docker/fleet/default.env` 
+`FLEET_LOGGING_JSON` is set to `"true"`
+
+JSON is very easy to parse and ingest by most logging tools out there.
 
 ---
 # Unwanted software
@@ -782,111 +876,50 @@ Fleet works with anything that can receive a webhook.
 
 Create a free account if you want to set up automations.
 
+**Webhook URLs are in the Google Docs -- results will go to a Slack Channel I will show!**
+
 ![](images/backgrounds/message from another world - desktop.jpg)
 
 ---
-# Policy webhook
 
-In Tines, create a story.
-
-* Drag the "Webhook" action from the top left.
-* On the right pane, copy the Webhook URL.
-* In Fleet, on the Policies page, click **Manage Automations**.
-* Select all policies, and paste the Tines URL at the bottom.
-* Save!
 
 ![](images/backgrounds/E27A8704.jpg)
 
 
 ---
-# Sending fake data
-To populate the data structure. Back in the **Manage Automations** pane, bottom left, **Preview Payload**.
 
-Copy the JSON in a text editor.
-Go to the Tines **Summary** pane for the **Webhook**, then select **Complex**. 
-
-Copy the first line of the `curl` including the `-d` command **above** the previously copied JSON in a text editor. 
 
 ![](images/backgrounds/the unreturning III - desktop.jpg)
 
 ---
-# Sending fake data
-## Example
-`curl -X POST https://bold-lake-4143.tines.com/webhook/13d0deb441fa0427ffc8e771bbb19a66/a94ebc3b2c81ce4db47ae1f69ed707b8 -H "Content-Type: application/json" -d` (JSON goes here between single quotes 'json')
 
-Run it in a terminal from your laptop.
-
-Emit the "held" event in Tines.
 
 ![](images/backgrounds/E27A8625bw.jpg)
 
 ---
-# Explode the data
-
-Create an **Event Transform** with mode **explode**. Set the path to `receive_policy.webhook.body.hosts`. Autocomplete should work if you sent the fake data and hit the emit button!
 
 ![](images/backgrounds/E27A8709.jpg)
 
 ---
-# Send an email
-Add an email action. Configure the text body to use variables like the hostname from the **Event Transform** and the policy name from the webhook!
 
-### The simplest example
-Vulnerabilities have a similar webhook, and Tines includes pre-built Fleet actions to query the API for more advanced use cases. E.g., Identify **who** owns a machine and emailing **them** instead of you, Slack messaging, augmenting the data in another story, etc. 
 
 ![](images/backgrounds/E27A8745.jpg)
 
 ---
 
-# Create a policy to check for unencrypted SSH keys
-
-**Tips**:
-
-1. It can be a negative policy (Remember the `SELECT 1 WHERE NOT EXISTS (other query) trick)
-2. You'll need to `JOIN`
-
 ![](images/backgrounds/E27A8745.jpg)
 
 ---
-# Create an unencrypted SSH key
-
-If you are on Mac or Linux.
-
-`ssh-keygen -t rsa -b 4096 -C "your_email@domain.lulz"` -> Make sure you don't overwrite your real keys. But store it in your `.ssh` (e.g., `/Users/g/.ssh/unencrypted_ssh_rsa.pub`)
-
-![](images/backgrounds/E27A3406a.jpg)
 
 ---
-# Policy will fail
-
-The policy will fail. You can hit "refresh" on your host to speed things up. Eventually you should get an email about it.
-
-![](images/backgrounds/disappear 007 - desktop.jpg)
-
----
-# Fleet in SOAR via REST API
-
-* Postman collection: https://bit.ly/3lo8Yau
-* Tines already has pre-built Fleet actions
-
-Use these to augment anything. For example, on policy violation, you could *Get Host to Human Mapping in Fleet* to find the email address of the laptop's owner.
-
-API Token for nsecfleet2: See the Google Drive
-
-![](images/backgrounds/E27A8783.jpg)
-
----
-# Hunting & secure configuration!
 
 ![](images/backgrounds/E27A8791.jpg)
 
-## Let's look at ways you can hunt for threats and dangerous configs with osquery & Fleet.
 
 ---
 # Hunting
 
-1. In the real world, I highly recommend sending *_events* to your centralized logs/SIEM etc.
-  - Setting up multiple Fleet instances was already a lot for a 2.5hour workshop, didn't want to add Graylog to it :) 
+1. In the real world, I highly recommend sending *_events* to your centralized logs/SIEM etc. You will likely need some historical data.
 2. Let's use MITRE ATT&CK for some ideas.
 
 ![](images/backgrounds/E27A8791.jpg)
@@ -912,7 +945,7 @@ https://attack.mitre.org/techniques/T1543/
 
 Pick an OS and make an example!
 
-^ macOS: select * from launchd; Windows: select * from register where blablabla path like HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows\load
+^ macOS: select * from launchd; Windows: select * from registry where blablabla path like HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows\load
 
 ![](images/backgrounds/white sands 06 4k.jpg)
 
@@ -932,19 +965,7 @@ Bonus: turn it into a policy query
 ![](images/backgrounds/video rental sticker - be kind rewind - desktop.jpg)
 
 ---
-# Scheduling queries to send to centralized logs
 
-1. Come up with a query that would make sense to repeat often.
-
-E.g., What services are running on my Windows servers?
-
-Should not change often!
-
-2. Create query. Save it in Fleet.
-3. Schedule query
-
-Note the **performance impact** column.
-^  Performance impact is calculated when the query runs on a real machine. Tip: Schedule it to run only on a subset of devices before running it on everything, especially if it's a complicated query that accesses the filesystem a lot.
 
 ![](images/backgrounds/white sands 08 4k.jpg)
 
@@ -1073,31 +1094,6 @@ Notice it was pretty quick to run! Good query to schedule with a decent yara db.
 
 ![](images/backgrounds/E27A2890.jpg)
 
----
-# If we have time left...
-
-## Open use case time!
-
-Suggest use cases in Slack. The one that gets the most emoji reactions is the one we'll look at next!
-
-![](images/backgrounds/be kind rewind glitched - desktop.jpg)
-
----
-# Thank you for your time!
-
-* Fleet channel if you have questions later!
-
-* Twitter: @gepeto42 and @fleetctl
-
-* https://www.pluralsight.com/authors/guillaume-ross 
-
-* Hecklers -> **Detection & Response Block** in Ville-Marie-17h55
-
-* I might host a more advanced version of this workshop with **events** sent to **Graylog** or similar this summer! Stay tuned.
-
-Wallpapers provided by the great Rob Sheridan!
-
-![original](images/backgrounds/fleet-wallpaper_desktop - 5120x2880.jpg)
 
 
 ---
@@ -1115,3 +1111,40 @@ We'll pick a few techniques and see how we can hunt for them.
 2. Which Windows machine on Fleet1 has weird scheduled tasks?
 
 ---
+# T1546.013 - PowerShell profile
+
+---
+# If we have time left...
+
+## Open use case time!
+
+Suggest use cases in Slack. The one that gets the most emoji reactions is the one we'll look at next!
+
+![](images/backgrounds/be kind rewind glitched - desktop.jpg)
+
+
+
+---
+# What we did!
+
+1. Installed Fleet
+2. Learned how to query osquery
+3. Created Fleet policies
+4. Integrated policies and vulnerabilities with webhooks
+5. Scheduled tasks and sent results to a centralized logging system
+6. Hunted for threats
+
+Have fun using Fleet in the real world!
+
+---
+# Thank you for your time!
+
+* Fleet channel if you have questions later! fleetdm.com/slack
+
+* Twitter:  @ksatter_dev @gepeto42 and @fleetctl
+
+* https://www.pluralsight.com/authors/guillaume-ross 
+
+Wallpapers provided by the great Rob Sheridan!
+
+![original](images/backgrounds/fleet-wallpaper_desktop - 5120x2880.jpg)
