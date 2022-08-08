@@ -1,0 +1,14 @@
+{
+    "grammarly.selectors": [
+        {
+            "language": "markdown",
+            "scheme": "file",
+            "pattern": "defcon30/slides/2022-08-defcon30-fleet-workshop.md"
+        },
+        {
+            "language": "Log",
+            "scheme": "output",
+            "pattern": "tasks"
+        }
+    ]
+}

@@ -3,6 +3,7 @@ slidenumbers: true
 # Protect/hunt/respond with Fleet and osquery
 ![inline filtered](images/fleet_logos/fleet-logo-text-white.svg)
 
+^ Welcome everyone! Please take a seat and grab one of the cards in front of you.
 
 ---
 # Who we are
@@ -36,7 +37,9 @@ Find us on the #Fleet channel in the osquery Slack!
 
 ## Slack
 
-For troubleshooting, questions, etc, join the #Fleet channel on the osquery Slack. : https://fleetdm.com/slack
+For troubleshooting, questions, etc, join the #Fleet channel on the osquery Slack.
+
+## https://fleetdm.com/slack
 
 ![](images/backgrounds/E27A8193.jpg)
 
@@ -47,7 +50,9 @@ For troubleshooting, questions, etc, join the #Fleet channel on the osquery Slac
 
 https://bit.ly/3QaL3IP
 
+
 ![inline](images/qr_codes.png)
+
 
 
 ![](images/backgrounds/E27A1849.jpg)
@@ -57,7 +62,7 @@ https://bit.ly/3QaL3IP
 
 Split in 8 "modules"
 
-* Install Fleet
+* Installing Fleet
 * osquery basics
 * osquery SQL basics
 * Fleet policies / detecting dangerous configs
@@ -67,7 +72,7 @@ Split in 8 "modules"
 ---
 # The workshop
 
-* Vulnerability identification
+* Vulnerability detection
 * Scheduled queries / gathering data for IR
 * Integrations
 * Finding badness using MITRE ATT&CK and osquery
@@ -75,9 +80,20 @@ Split in 8 "modules"
 ![](images/backgrounds/E27A1316.jpg)
 
 ---
+# A few terms
+
+* **osquery** - the open source agent running on endpoints
+* **Fleet** - the open source server used to manage osquery
+* **Orbit** - open source runtime for osquery, by Fleet, to make packaging and configuring it easier (including automatic updates)
+
+![](images/backgrounds/dont fear the reaper 04 destkop.jpg)
+
+---
 # Breaks
 
-We aren't monsters, we know it's 9am on DEF CON Thursday.
+We aren't monsters, we know it's 9am on DEF CON Thursday. 
+
+Even though **Guillaume**'s brain is still in Eastern timezone mwahaha.
 
 ## 9:45 to 10am -> Break 1 & catch-up 
 ## 11:30 to 11:45am -> Break 2
@@ -87,7 +103,7 @@ We aren't monsters, we know it's 9am on DEF CON Thursday.
 ---
 # Why install Fleet before basics?
 
-We want to be sure everyone is able to get Fleet up to make it easy to query osquery later. 
+We want to be sure everyone is able to get Fleet up to make it easy to use osquery later. 
 
 DO NOT HESITATE to ask questions in person or on Slack - you need a Fleet instance to work!
 
@@ -117,6 +133,8 @@ DO NOT HESITATE to ask questions in person or on Slack - you need a Fleet instan
 └─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+## Installing Fleet
+
 ![](images/backgrounds/E27A8783.jpg)
 
 ---
@@ -135,6 +153,9 @@ THIS SETUP IS FOR THE WORKSHOP ONLY NEVER USE THIS "FOR REAL"
 └─────────────────────────────────────────────┘                                
 ```
 
+
+![](images/backgrounds/disappear 006 - desktop.jpg)
+
 ---
 * Clone the `defcon` branch of Kathy's repo:
 
@@ -148,17 +169,20 @@ Fleet will accessible at `fleet.traefik.me`
 
 **More instructions in README.md in the repo's defcon branch**
 
+![](images/backgrounds/white sands 08 4k.jpg)
+
 ---
+
+![](images/backgrounds/mind melt 06 desktop.jpg)
+
 # Install `fleetctl`
 
 Command line tool for managing Fleet and generating osquery packages.
 
-0. Install it from the *releases* page https://github.com/fleetdm/fleet/releases
-
-OR 
-
+0. Install it from the *releases* page https://github.com/fleetdm/fleet/releases **OR**
 1. Make sure node is installed and `npm` is available.
 2. `sudo npm install -g fleetctl` (On Windows, replace sudo with using an admin `cmd/PowerShell`)
+3. `fleetctl --version` to check that it's working
 
 
 ---
@@ -184,6 +208,10 @@ OR
 └─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+![](images/backgrounds/horrorvision vintage 09 desktop.jpg)
+
+# Centralized class setup
+
 ---
 ```
    ┌───────────────────────┐     ┌───────────────────────┐
@@ -204,6 +232,8 @@ OR
 └─────────────────────────────┘                           
 ```
 
+![](images/backgrounds/horrorvision vintage 04 desktop.jpg)
+
 ---
 We also have a centralized Fleet server for everyone to use.
 
@@ -216,6 +246,7 @@ We also have a centralized Fleet server for everyone to use.
 2. Generate an installer with `fleetctl` (see Add Hosts, or the shared Docs for full commands)
 3. Install the package on a VM **for testing**, without REAL data
 
+![](images/backgrounds/wanderers 04 desktop.jpg)
 
 ---
 ```
@@ -231,9 +262,11 @@ We also have a centralized Fleet server for everyone to use.
 
 You now have:
 
-1. A mostly private local Fleet setup.
-2. VM(s) pointing to our centralized workshop Fleet server.
+1. A mostly private local Fleet setup
+2. VM(s) pointing to our centralized workshop Fleet server
 3. An account to log in to https://fleet1.evil.plumbing
+
+![](images/backgrounds/mind melt 03 desktop.jpg)
 
 ---
 # osquery basics
@@ -267,7 +300,11 @@ What's running? Who's logged in? What devices are connected? What's connecting? 
 
 * [https://github.com/fleetdm/fleet](https://github.com/fleetdm/fleet)
 
-Fleet is the most widely used open source, osquery manager. Deploying osquery with Fleet enables programmable live queries, streaming logs, and effective management of osquery across 100,000+ servers, containers, and laptops. It's handy for talking to multiple devices at the same time.
+Fleet is the most widely used open source osquery manager
+
+* live queries
+* policies
+* management of osquery at scale
 
 ![](images/backgrounds/E27A1645.jpg)
 
@@ -281,6 +318,7 @@ Two ways:
 
 You've already done #2!
 
+![](images/backgrounds/E27A8791.jpg)
 
 ---
 ```
@@ -317,23 +355,14 @@ Try these queries either:
 ![inline](images/target_single_device.png)
 
 
-
----
-# What happens in preview mode
-
-1. Fleet server will be run using Docker.
-2. A dockerized osquery will be run on your laptop, enrolled to the local Fleet.
-3. Simulated Linux hosts will get enrolled to the local Fleet.
-4. http://localhost:1337 - `admin@example.com` / `admin123#`
-
-![](images/backgrounds/E27A2085.jpg)
-
 ---
 # Test it
 
 * Go to **Queries** and then **Create new query**
 
-`SELECT * from osquery_info;`
+```sql
+SELECT * from osquery_info;
+```
 
 Run it on one of your VMs. Did you get data back?
 
@@ -356,11 +385,17 @@ https://osquery.readthedocs.io/en/stable/introduction/sql/
 
 Mostly READING from tables. Sometimes just a single table.
 
-`SELECT * FROM users;`
+```sql
+SELECT * FROM users;
+```
 
-`SELECT * FROM crontab;`
+```sql
+SELECT * FROM crontab;
+```
 
-`SELECT * FROM processes;`
+```sql
+SELECT * FROM processes;
+```
 
 
 ^ By the way - using uppercase for SELECT and FROM here is just to make the queries more legible. It would work without that.
@@ -392,55 +427,49 @@ Time to look at your examples!
 ---
 # SQL - filter what you need only
 
-* Select only the columns you need: `SELECT username, uid FROM users;`
-* Filter with WHERE: `SELECT username, uid FROM users WHERE username = 'guillaume'; 
+* Select only the columns you need: 
+
+```sql
+SELECT username, uid FROM users;
+```
+* Filter with WHERE: 
+
+```sql
+SELECT username, uid FROM users WHERE username = 'guillaume';
+``` 
 
 Which Windows machine on Fleet1 has a user called `guillaume`?
 
 ---
 # SQL - wirldcards
-`
-* Wildcards with LIKE: `SELECT column1, column2 FROM table WHERE column2 LIKE '%potato%';`
+
+* Wildcards with LIKE: 
+
+```sql
+SELECT column1, column2 FROM table WHERE column2 LIKE '%potato%';
+```
 
 `%` matches any sequence. `_` matches a single character. For file paths, `%` can be used in a directory: `/etc/%/*.conf`
 
 ![](images/backgrounds/E27A3247.jpg)
+
 
 ---
 # SQL - you can get advanced!
 
 You can also `SPLIT`, concatenate create temporary tables, essentially do almost anything you could think of doing with SQL. 
 
-```
-WITH pstree AS (  
-  SELECT 0 as level, pid, name, parent, name as pparent, uid,  cast(uid as varchar(10)) puid       
-  FROM processes   WHERE parent = 0  
-  UNION ALL
-  SELECT level+1 as level, t.pid, t.name, t.parent, pstree.pparent || '->' || t.name as pparent, t.uid, pstree.puid || '->' || t.uid as puid       
-  FROM processes t   INNER join pstree on t.parent = pstree.pid )     
-SELECT level, pid, name, pparent as process_chain, puid as user_chain  FROM pstree;  
-```
+See our query to detect log4j being used in Java: https://fleetdm.com/securing/detect-log4j-with-osquery-and-fleet
 
-(Query available on our centralized server) 
-
-VERY useful to split **registry paths** on Windows!
+```sql
+SELECT key, data, split(path, '\',3) as keyyouwant FROM 
+registry WHERE key like 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\control\LSA' 
+and name='LMCompatibilityLevel';
+```
 
 ![](images/backgrounds/E27A3406.jpg)
 
----
-# Processes table
-
-The previously shown query uses the processes table, cross-platform.
-
-`SELECT * FROM processes;`
-
-This is a snapshot of what is happening. 
-
-* How would you find a specific process that you know is running?
-* What potential issue could this create if we don't consider that this is a snapshot?
-
-
-![](images/backgrounds/gateways 04 - desktop.jpg)
+^ This could be particularly useful if you were also using wildcards, for example, looking at all users under HKEY_USERS
 
 ---
 # User specific tables
@@ -457,7 +486,10 @@ The *users* table also has a **UID** column.
 
 ### Try this
 
-`SELECT * FROM table_with_uids WHERE table_with_uids.uid IN (SELECT uid FROM users);`
+```sql
+SELECT * FROM table_with_uids WHERE 
+table_with_uids.uid IN (SELECT uid FROM users);
+```
 
 Use one of these:
 * `chrome_extensions`
@@ -479,25 +511,45 @@ How would you do it?
 
 ---
 # List the actual users?
-
-`SELECT users.username, table_with_uids.what_you_want, table_with_uids.what_you_want2 FROM users CROSS JOIN table_with_uids USING (uid);`
+```sql
+SELECT users.username, table_with_uids.what_you_want, 
+table_with_uids.what_you_want2 
+FROM users CROSS JOIN table_with_uids USING (uid);
+```
 
 ![](images/backgrounds/E27A4402.jpg)
 
----
-# Chrome extensions example
-
-Time to make a real one! There are a few ways to achieve it, but the previous example works too.
-
-![](images/backgrounds/E27A5512.jpg)
 
 ---
 # Chrome extensions example
-`SELECT users.username, chrome_extensions.name, chrome_extensions.description FROM users CROSS JOIN chrome_extensions USING (uid);`
+```sql
+SELECT users.username, chrome_extensions.name, 
+chrome_extensions.description 
+FROM users 
+CROSS JOIN chrome_extensions USING (uid);
+```
 
 ![](images/backgrounds/E27A7524.jpg)
 
+
+
 ---
+# Processes table
+
+```sql
+SELECT * FROM processes;
+```
+
+This is a snapshot of what is happening. 
+
+* How would you find a specific process that you know is running?
+* What potential issue could this create if we don't consider that this is a snapshot?
+
+
+![](images/backgrounds/gateways 04 - desktop.jpg)
+
+---
+
 # Events table
 
 * *file_events* (macOS and Linux)
@@ -524,9 +576,12 @@ Results?
 
 osquery flags: configuration - can be passed via TLS, in local config files, or at startup
 
-Fleet manages flags.
+To see flags currently applied on a host:
 
-`select * from osquery_flags;` to see flags currently applied on a host.
+```sql
+select * from osquery_flags;
+``` 
+
 
 ![](images/backgrounds/E27A8074.jpg)
 
@@ -535,18 +590,25 @@ Fleet manages flags.
 
 `disable-events` must be turned off. 
 
-OS permissions also apply, which is why you are likely getting no results now. In a regular environment, deploy osquery and grant it *full disk access* on macOS: https://fleetdm.com/docs/using-fleet/adding-hosts#grant-full-disk-access-to-osquery-on-mac-os
+In a regular macOS environment, grant osquery *full disk access*:
 
-Then, there are settings per type of events.
+https://fleetdm.com/docs/using-fleet/adding-hosts#grant-full-disk-access-to-osquery-on-mac-os
+
 
 ![](images/backgrounds/E27A2085bw.jpg)
 
 ---
-# On vanilla osqueryi
+# On Fleet
 
-`osqueryi --audit_allow_config=true --audit_allow_sockets=true --audit_persist=true --disable_audit=false --events_expiry=1 --events_max=50000 --logger_plugin=filesystem --disable_events=false`
+1) On Fleet1 - I configured it already 
+2) On your own machines... add this to global agent config and restart agents:
 
-This will run an interactive osquery terminal with file, socket and process events enabled.
+```yaml
+    audit_persist: true
+    disable_audit: false
+    disable_events: false
+    audit_allow_sockets: true
+```
 
 ![](images/backgrounds/E27A8106.jpg)
 
@@ -555,9 +617,11 @@ This will run an interactive osquery terminal with file, socket and process even
 
 In another terminal on the same machine (ssh, screen, anything), run a few commands (`ping`, `ls`, `top`, whatever!)
 
-# Go back to your running osqueryi
+# Query again
 
-`select * FROM process_events;`
+```sql
+SELECT * FROM process_events;
+```
 
 ^ Does everyone have process event results? 
 
@@ -575,9 +639,9 @@ In another terminal on the same machine (ssh, screen, anything), run a few comma
 ---
 # Use cases for events
 
-* Detection and investigation (process_events, process_open_files, etc.)
-* File integrity monitoring (FIM) (file_events, ntfs_journal_events)
-* Tracking the use of USB storage (hardware_events)
+* Detection and investigation (`process_events`, `process_open_files`, etc.)
+* File integrity monitoring (FIM) (`file_events`, `ntfs_journal_events`)
+* Tracking the use of USB storage (`hardware_events`)
 
 ![](images/backgrounds/E27A8190.jpg)
 
@@ -612,7 +676,11 @@ Policies in Fleet are queries that *pass* or *fail*.
 
 If results are returned, that's a *pass*.
 
-E.g., `SELECT 1 WHERE 1=1;` will always pass.
+```sql
+SELECT 1 WHERE 1=1;
+``` 
+
+This policy passes for sure since 1 is always equal to 1 (unless you ask Terrence Howard)
 
 ![](images/backgrounds/E27A8278.jpg)
 
@@ -620,13 +688,17 @@ E.g., `SELECT 1 WHERE 1=1;` will always pass.
 
 We previously had a query to find users called "guillaume":
 
-`SELECT username, uid FROM users WHERE username = 'guillaume';`
+```sql
+SELECT username, uid FROM users WHERE username = 'guillaume';
+```
 
 If we used this as a policy - it would pass when a user called guillaume exists, and fail otherwise.
 
 Simplified:
 
-`SELECT 1 FROM users WHERE username = 'guillaume';`
+```sql
+SELECT 1 FROM users WHERE username = 'guillaume';
+```
 
 ![](images/backgrounds/E27A8193.jpg)
 
@@ -667,7 +739,11 @@ Pick the OS you want.
 # Answer - Firewall
 
 ## macOS
-`SELECT 1 FROM alf WHERE global_state >= 1;`
+
+```sql
+SELECT 1 FROM alf WHERE global_state >= 1;
+```
+
 `global_state` could be set to 1 or 2 meaning it's enabled, or enabled and blocking all inbound, and this would pass.
 
 ![](images/backgrounds/E27A8625.jpg)
@@ -678,9 +754,34 @@ Pick the OS you want.
 ## Windows
 We do not have a table for firewall status itself, but `windows_security_center` has a firewall column!
 
-`SELECT 1 FROM windows_security_center WHERE firewall='good';`
+```sql
+SELECT 1 FROM windows_security_center WHERE firewall='good';
+```
 
 ![](images/backgrounds/E27A8691.jpg)
+
+
+---
+# Exercise - Antivirus OK - Windows
+
+Create a policy that will check that the AV is working alright (as well as AV can work 😂) in the sense that it is:
+
+* Running
+* Up to date
+
+![](images/backgrounds/the unreturning III - desktop.jpg)
+
+---
+# Exercise - Antivirus OK - Windows
+
+What'd you come up with?
+
+I'll go configure it on Fleet1
+
+![](images/backgrounds/E27A8704.jpg)
+
+^ SELECT 1 from windows_security_center wsc CROSS JOIN windows_security_products wsp WHERE antivirus = 'Good' AND type = 'Antivirus' AND signatures_up_to_date=1; - who didn't use the built-in one?
+
 
 ---
 # "Negative" policies
@@ -689,15 +790,16 @@ Policies where you want the LACK of results to be a PASS.
 
 Ex: Laptops should not have unencrypted SSH keys.
 
-
-`SELECT 1 WHERE NOT EXISTS (SELECT 1 FROM users CROSS JOIN user_ssh_keys USING (uid) WHERE encrypted='0');`
-
----
-`SELECT 1 WHERE NOT EXISTS (SELECT 1 FROM users CROSS JOIN user_ssh_keys USING (uid) WHERE encrypted='0');`
+```sql
+SELECT 1 WHERE NOT EXISTS 
+(SELECT 1 FROM users CROSS JOIN user_ssh_keys USING (uid) WHERE encrypted='0');
+```
 
 What we are doing: 
 
 Selecting 1 so the policy passes IF "not exists" (select 1 if there are keys that are unencrypted).
+
+![](images/backgrounds/E27A2085.jpg)
 
 ---
 
@@ -711,6 +813,19 @@ That VM should start failing that policy!
 
 ![](images/backgrounds/E27A3406a.jpg)
 
+---
+# Unwanted software
+
+```sql
+SELECT 1 WHERE NOT EXISTS 
+(SELECT * FROM deb_packages WHERE name LIKE 'vim%');
+```
+
+1. `deb_packages` table. You can query all of it and see, one of your fake machines should have `vim-tiny` and `vim-common`.
+2. We use `WHERE NOT EXISTS` with `SELECT 1` to return results IF the sub-query is empty. So `1` is returned only if nothing that has a name `LIKE` `vim%` is found.
+
+![](images/backgrounds/E27A8699.jpg)
+
 
 ---
 # Exercise - App installed and up to date
@@ -720,13 +835,26 @@ Name some apps you think should be either:
 1) NOT installed at all.
 2) Installed and up to date.
 
-i.e.: You want to be alerted if someone has an old version of the app, but not if they do not have the app at all.
+You want to be alerted if someone has an old version of the app, but not if they do not have the app at all.
+
+![](images/backgrounds/horrorvision vintage 09 desktop.jpg)
+
+
+
 
 ---
 
-`SELECT 1 WHERE EXISTS (SELECT 1 FROM apps a3 WHERE a3.bundle_identifier = 'org.mozilla.firefox' AND a3.bundle_short_version>='100.0') OR NOT EXISTS (SELECT 1 FROM apps a2 WHERE a2.bundle_identifier = 'org.mozilla.firefox')`
+```sql
+SELECT 1 WHERE EXISTS 
+(SELECT 1 FROM apps a3 WHERE a3.bundle_identifier = 'org.mozilla.firefox' 
+  AND a3.bundle_short_version>='100.0')
+ OR NOT EXISTS 
+(SELECT 1 FROM apps a2 WHERE a2.bundle_identifier = 'org.mozilla.firefox')
+```
 
 ![](images/backgrounds/E27A8338.jpg)
+
+
 
 ---
 ```
@@ -746,6 +874,7 @@ i.e.: You want to be alerted if someone has an old version of the app, but not i
 
 ![](images/backgrounds/E27A8388.jpg)
 
+
 ---
 # Vulnerability automations
 
@@ -759,6 +888,20 @@ i.e.: You want to be alerted if someone has an old version of the app, but not i
 ![](images/backgrounds/E27A8466.jpg)
 
 ---
+# Orchestrator
+
+Fleet works with anything that can receive a webhook.
+
+[Tines.io](https://tines.io) is a nice one with a free trial. 
+
+Create a free account if you want to set up automations.
+
+**Webhook URLs are in the Google Docs -- results will go to a Slack Channel I will show!**
+
+![](images/backgrounds/message from another world - desktop.jpg)
+
+
+---
 # On your local stack
 
 Point automations to my Tines Webhook now - we'll look later to see the results!
@@ -770,11 +913,30 @@ https://rustling-snow-6608.tines.com/webhook/0fe6acf0c2b62cdf527eeffdbcefb7a3/1e
 ![](images/backgrounds/E27A8550.jpg)
 
 ---
+
+
 # Scheduled queries
 
-### Why?
+For things you want to keep track of over time and/or use with a SIEM/centralized logs
 
-Things you want to keep historic data about. What's installed on our servers? What SSH keys were present on our machines?
+
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        _____      __             __      __         __                         _               │
+│       / ___/_____/ /_  ___  ____/ /_  __/ /__  ____/ /  ____ ___  _____  _____(_)__  _____     │
+│       \__ \/ ___/ __ \/ _ \/ __  / / / / / _ \/ __  /  / __ `/ / / / _ \/ ___/ / _ \/ ___/     │
+│      ___/ / /__/ / / /  __/ /_/ / /_/ / /  __/ /_/ /  / /_/ / /_/ /  __/ /  / /  __(__  )      │
+│     /____/\___/_/ /_/\___/\__,_/\__,_/_/\___/\__,_/   \__, /\__,_/\___/_/  /_/\___/____/       │
+│                                                         /_/                                    │
+└────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+![](images/backgrounds/E27A5512.jpg)
+
+---
+# Scheduled queries
+
 ### How
 
 1. Create and save a query.
@@ -789,6 +951,8 @@ Things you want to keep historic data about. What's installed on our servers? Wh
 On your *LOCAL STACKS* - schedule 2-3 queries to run every 15 minutes.
 
 **NOTE**: The logs from this will go to a centralized server, do not query confidential information!
+
+![](images/backgrounds/E27A8745.jpg)
 
 ---
 
@@ -822,6 +986,9 @@ It is simply pointed to log files:
     - /tmp/*.log
 ```
 
+![](images/backgrounds/E27A8709.jpg)
+
+
 ---
 # Logging - example
 Look at `fleet-docker/fleet/default.env` 
@@ -829,92 +996,8 @@ Look at `fleet-docker/fleet/default.env`
 
 JSON is very easy to parse and ingest by most logging tools out there.
 
----
-# Unwanted software
-
-Let's make a **negative** policy. One that fails **if** something **is found**.
-
-Assume you hit your head cartoon-style and suddenly started preferring emacs.
-You want to detect any use of any package that starts with **vim** on Debian machines (such as the enrolled fake-Linux machines on your **preview**.)
-
-**Tip**: Look at the built-in "SSH Keys encrypted" policy for ideas on making a negative policy.
-
-![](images/backgrounds/E27A8691i.jpg)
-
----
-# Unwanted software
-
-`SELECT 1 WHERE NOT EXISTS (SELECT * FROM deb_packages WHERE name LIKE 'vim%');`
-
-1. `deb_packages` table. You can query all of it and see, one of your fake machines should have `vim-tiny` and `vim-common`.
-2. We use `WHERE NOT EXISTS` with `SELECT 1` to return results IF the sub-query is empty. So `1` is returned only if nothing that has a name `LIKE` `vim%` is found.
-
-![](images/backgrounds/E27A8699.jpg)
-
----
-# No unencrypted SSH keys
-
-Enable this built-in policy.
-
-![](images/backgrounds/disappear 006 - desktop.jpg)
-
----
-# Automations
-
-See that manage automations on the top right?
-
-We need something to receive that webhook!
-
-![](images/backgrounds/E27A8699.jpg)
-
----
-# Orchestrator
-
-Fleet works with anything that can receive a webhook.
-
-[Tines.io](https://tines.io) is a nice one with a free trial. 
-
-Create a free account if you want to set up automations.
-
-**Webhook URLs are in the Google Docs -- results will go to a Slack Channel I will show!**
-
-![](images/backgrounds/message from another world - desktop.jpg)
-
----
-
-
-![](images/backgrounds/E27A8704.jpg)
-
-
----
-
-
-![](images/backgrounds/the unreturning III - desktop.jpg)
-
----
-
 
 ![](images/backgrounds/E27A8625bw.jpg)
-
----
-
-![](images/backgrounds/E27A8709.jpg)
-
----
-
-
-![](images/backgrounds/E27A8745.jpg)
-
----
-
-![](images/backgrounds/E27A8745.jpg)
-
----
-
----
-
-![](images/backgrounds/E27A8791.jpg)
-
 
 ---
 # Hunting
@@ -956,18 +1039,13 @@ One of the most valuable ways to dig into PowerShell shenanigans. Requires enabl
 
 First, check if script block logging is enabled!
 
-It's in HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging\EnableScriptBlockLogging. How would you query that?
+HKLM\Microsoft\Windows\PowerShell\ScriptBlockLogging\EnableScriptBlockLogging. How would you query that?
 
 Bonus: turn it into a policy query
 
 ^ SELECT 1 FROM registry WHERE path = 'HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging\EnableScriptBlockLogging' and data=1;
 
 ![](images/backgrounds/video rental sticker - be kind rewind - desktop.jpg)
-
----
-
-
-![](images/backgrounds/white sands 08 4k.jpg)
 
 ---
 # See all current network connections
@@ -995,13 +1073,17 @@ For workshop purposes we'll go **inline**.
 ---
 # Yara
 
-1. Download eicar.com on your host running the Fleet preview.
+* Download eicar.com on your host running the Fleet preview.
 
 wget https://secure.eicar.org/eicar.com
 
 Warning: On Mac, put it on your home directory, **not** Downloads or Desktop. Those are protected folders the preview osquery can't read.
 
-2. Create a query using the **yara** table and this signature. Don't look at the whole filesystem - too slow for demo purposes. Point it at the directory containing the file.
+* Create a query using the **yara** table and this signature. Don't look at the whole filesystem - too slow for demo purposes. Point it at the directory containing the file.
+
+![](images/backgrounds/radio boneyard 02 desktop.jpg)
+
+---
 
 ```yaml
 rule eicar {
@@ -1011,7 +1093,7 @@ rule eicar {
     all of them
 ```
 
-3. Convert your query into a policy query
+* Convert your query into a policy query
 
 ![](images/backgrounds/white sands 02 4k.jpg)
 
@@ -1047,6 +1129,7 @@ SELECT 1 WHERE NOT EXISTS (SELECT * FROM yara WHERE path like '/root/%%' AND sig
 }'
 ) AND matches='eicar');
 ```
+
 ![](images/backgrounds/wander 017 cosmic dunes 4k.jpg)
 
 ---
@@ -1071,7 +1154,7 @@ SELECT * FROM yara WHERE path IN (SELECT DISTINCT path FROM processes) AND
 
 -> Then add your signature group, signature URLs.
 
-### This scans only running processes against a set of yara rules.
+### This scans only running processes against a set of Yara rules.
 
 ![](images/backgrounds/pop skullture gothmas 2021 - desktop.jpg)
 
@@ -1104,14 +1187,84 @@ Notice it was pretty quick to run! Good query to schedule with a decent yara db.
 
 We'll pick a few techniques and see how we can hunt for them.
 
+![](images/backgrounds/E27A8691i.jpg)
+
 ---
 # T1053 - Scheduled tasks / Cron jobs
 
 1. Create a query for T1053.002
 2. Which Windows machine on Fleet1 has weird scheduled tasks?
 
+![](images/backgrounds/radio boneyard 03 desktop.jpg)
+
 ---
-# T1546.013 - PowerShell profile
+# T1562.002 
+
+Find proof two of the machines starting with `dcwin` had their event logs fooled with.
+
+* System, Microsoft-Windows-Sysmon/Operational, Microsoft-Windows-PowerShell/Operational
+* Wiping and remote PS exec
+* Auditpol
+* Times 
+
+^ We could check out what is happening in event logs with `SELECT * FROM windows_eventlog WHERE channel='System' LIMIT 5;` or check out sysmon logs: `SELECT * FROM windows_eventlog WHERE channel='Microsoft-Windows-Sysmon/Operational';`  BUT You should also look for remote PS execution with Suspend -> SELECT * FROM windows_eventlog WHERE channel='Microsoft-Windows-PowerShell/Operational' AND eventid='4104' AND data LIKE "%%SuspendThread%%" ;
+
+![](images/backgrounds/oblivion 017b - darkness gathering \(alt\) desktop.jpg)
+
+---
+
+## Which machine had its logs wiped most recently?
+## Which machine had its event log messed with in more complicated ways? How?
+
+^ dcwin2 had its logs wiped.  `SELECT * FROM windows_eventlog WHERE channel='System' AND eventid='104';` - dcwin3 had its even log messed with - it is the one that has not logged recently..
+
+![](images/backgrounds/horrorvision 03 desktop.jpg)
+
+---
+
+Log clearing:
+
+```sql
+SELECT * FROM windows_eventlog WHERE channel='System' AND eventid='104';
+```
+
+AuditPol fun:
+
+```sql
+SELECT * FROM windows_eventlog WHERE 
+channel='Microsoft-Windows-Sysmon/Operational' 
+AND eventid='1' AND data LIKE "%%auditpol%%";
+```
+phant0m:
+
+```sql
+SELECT * FROM windows_eventlog WHERE 
+channel='Microsoft-Windows-PowerShell/Operational' 
+AND eventid='4104' AND data LIKE "%%SuspendThread%%"
+```
+
+![](images/backgrounds/wanderers 02 desktop.jpg)
+
+---
+# Exercise - Prove Internet exposure
+
+All the `dcwin*` machines have RDP exposed to the Internet. Some of the Linux ones have SSH.
+
+Prove it with osquery!
+
+![](images/backgrounds/radio boneyard 06 desktop.jpg)
+
+---
+
+# Internet exposure
+
+## How'd you do it?
+
+A few ways.. but my favorite for such popular ports: just look for connections!
+
+* Exclude RFC1918 IPs
+
+![](images/backgrounds/oblivion 013b desktop.jpg)
 
 ---
 # If we have time left...
@@ -1121,8 +1274,6 @@ We'll pick a few techniques and see how we can hunt for them.
 Suggest use cases in Slack. The one that gets the most emoji reactions is the one we'll look at next!
 
 ![](images/backgrounds/be kind rewind glitched - desktop.jpg)
-
-
 
 ---
 # What we did!
@@ -1136,6 +1287,8 @@ Suggest use cases in Slack. The one that gets the most emoji reactions is the on
 
 Have fun using Fleet in the real world!
 
+![](images/backgrounds/E27A8699.jpg)
+
 ---
 # Thank you for your time!
 
@@ -1148,3 +1301,43 @@ Have fun using Fleet in the real world!
 Wallpapers provided by the great Rob Sheridan!
 
 ![original](images/backgrounds/fleet-wallpaper_desktop - 5120x2880.jpg)
+
+
+---
+
+
+![](images/backgrounds/mind melt 06 desktop.jpg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
