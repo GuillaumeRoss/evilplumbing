@@ -109,7 +109,6 @@ DO NOT HESITATE to ask questions in person or on Slack - you need a Fleet instan
 
 ![](images/backgrounds/disappear 007 - desktop.jpg)
 
-
 ---
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
@@ -132,7 +131,6 @@ DO NOT HESITATE to ask questions in person or on Slack - you need a Fleet instan
 │                                                                                 │
 └─────────────────────────────────────────────────────────────────────────────────┘
 ```
-
 ## Installing Fleet
 
 ![](images/backgrounds/E27A8783.jpg)
@@ -172,7 +170,6 @@ Fleet will accessible at `fleet.traefik.me`
 ![](images/backgrounds/white sands 08 4k.jpg)
 
 ---
-
 ![](images/backgrounds/mind melt 06 desktop.jpg)
 
 # Install `fleetctl`
@@ -441,7 +438,7 @@ SELECT username, uid FROM users WHERE username = 'guillaume';
 Which Windows machine on Fleet1 has a user called `guillaume`?
 
 ---
-# SQL - wirldcards
+# SQL - wildcards
 
 * Wildcards with LIKE: 
 
@@ -919,8 +916,6 @@ https://rustling-snow-6608.tines.com/webhook/0fe6acf0c2b62cdf527eeffdbcefb7a3/1e
 
 For things you want to keep track of over time and/or use with a SIEM/centralized logs
 
-
-
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
 │        _____      __             __      __         __                         _               │
@@ -1292,11 +1287,15 @@ Have fun using Fleet in the real world!
 ---
 # Thank you for your time!
 
+* FREE SWAG SHIPPED HOME! 
+
 * Fleet channel if you have questions later! fleetdm.com/slack
 
 * Twitter:  @ksatter_dev @gepeto42 and @fleetctl
 
 * https://www.pluralsight.com/authors/guillaume-ross 
+
+* IF YOU HAVE AN ISC2 CERT: https://www.be-represented.org/ 
 
 Wallpapers provided by the great Rob Sheridan!
 
@@ -1307,37 +1306,3 @@ Wallpapers provided by the great Rob Sheridan!
 
 
 ![](images/backgrounds/mind melt 06 desktop.jpg)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
