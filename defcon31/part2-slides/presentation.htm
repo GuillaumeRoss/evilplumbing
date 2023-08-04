@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="@@base@@" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, height=device-height, initial-scale=1" />
+    <link rel="stylesheet" href="engine/main.css" />
+    <link rel="stylesheet" href="theme/sanfrancisco.css" />
+    <link rel="stylesheet" href="engine/katex/katex.min.css" />
+    <!--<link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />-->
+    <style>
+    :root{
+--logo: ;
+--darkaccent1color: #fff;
+--lightaccent1color: #fff;
+--accent2: #43aa8b;
+--accent3: #f9c74f;
+--accent4: #90be6d;
+--accent5: #f8961e;
+--accent6: #577590;
+--lighttitletextcolor: #fff;
+--darktitletextcolor: #fff;
+--lightbodytextcolor: #fff;
+--darkbodytextcolor: #fff;
+--lightbackgroundcolor: transparent;
+--darkbackgroundcolor: transparent;
+--bodyfont: ui-monospace;
+--titlefont: system-ui;
+} 
+
+    </style>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="engine/print.css"
+      media="print"
+    />
+  </head>
+
+  <body class="responsive">
+    <div class="reveal">
+      <div class="slides"><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#004b72" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default" style="width: 100%; font-size: 0.859rem;">
+        <div style=""><h1 id="beforewegetstarted...">Before we get started...</h1>
+
+<ol>
+<li>Download BloodHound 4.3.1 from <code class="hljs awk">https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/BloodHoundAD/</span>BloodHound/releases</code> - GET THE INTEL VERSION (Apple Silicon build currently broken)</li>
+<li>Clean up your existing neo4j DB: <code class="hljs sas">MATCH (<span class="hljs-meta">x</span>) DETACH <span class="hljs-meta">DELETE</span> <span class="hljs-meta">x</span>;</code></li>
+</ol></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">1</div></div>
+      
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#064178" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="typicalbloodhoundsetup">Typical BloodHound Setup</h1>
+
+<ol>
+<li>Neo4j Community v4</li>
+<li>BloodHound</li>
+<li>SharpHound</li>
+</ol></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">2</div></div>
+      
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#0d387e" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default" style="width: 100%; font-size: 0.859rem;">
+        <div style=""><ol>
+<li>Download BloodHound from <code class="hljs awk">https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/BloodHoundAD/</span>BloodHound/releases</code> - Mac people: X64 version is more reliable and works fine in Rosetta. You might need to <code class="hljs ebnf"><span class="hljs-attribute">wget</span></code> as Chrome considers <code class="hljs ebnf"><span class="hljs-attribute">sharphound</span></code> to be malware and will block the zip. (Warning: Your EDR/AV might also trigger)</li>
+<li>Unzip it (This is when a lot of EDRs will trigger. If only <code class="hljs ebnf"><span class="hljs-attribute">sharphound</span></code> gets deleted, no worries, you won't need it today).</li>
+<li>Mac: Right click to run it and bypass GateKeeper</li>
+<li>Log in with previously configured credentials</li>
+</ol></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">3</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#132f84" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="sharphound:warnings">SharpHound: Warnings</h1>
+
+<p>SharpHound can be noisy and generate quite a bit of load. If you run it "by default", you will likely trigger at least some EDRs, IPS, etc. </p>
+
+<p>Don't go and run this against domains you don't own, please, and if you do, read the full instructions!</p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">4</div></div>
+      
+</section><section class="variable-size-headings has-footer dark v-split-container present has-dark-background fitted" data-background-color="#1a258b" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-v-split" style="width: 100%; font-size: 0.953rem;">
+        <div style=""><h1 id="usingsharphound">Using SharpHound</h1></div>
+        <div style=""><p>We won't in this lab but you will need it in real life.</p>
+
+<p><code class="hljs applescript">sharphound -d psumac.<span class="hljs-keyword">local</span></code></p>
+
+<p>Collect sessions? <code class="hljs ada">sharphound <span class="hljs-comment">--CollectionMethods Session</span></code></p>
+
+<p>Stealth? <code class="hljs brainfuck"><span class="hljs-comment">sharphound</span> --<span class="hljs-comment">CollectionMethods</span> <span class="hljs-comment">Session</span> --<span class="hljs-comment">Stealth</span></code></p>
+
+<p>ALL! (NOISY!) <code class="hljs ada">sharphound <span class="hljs-comment">--CollectionMethods all</span></code></p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">5</div></div>
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#1f1d8d" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default" style="width: 100%; font-size: 0.906rem;">
+        <div style=""><h1 id="otheroptions">Other Options</h1>
+
+<ol>
+<li>Target only specific DCs (useful to not load important DCs)</li>
+<li>Various throttling options (useful to prevent detection but also to reduce performance impact on huge domains)</li>
+<li>EncryptZip (useful so if someone finds your zip laying around, they can't open it easily).</li>
+<li>Much more!</li>
+</ol></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">6</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#24158e" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="importingdemodata">Importing demo data</h1></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">7</div></div>
+      
+</section><section class="variable-size-headings has-footer dark full-image-container present has-dark-background fitted" data-background-color="#290d8e" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-full-image media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><div class="single-image-wrapper"><video controls="" class=" position-center-center" data-paused-by-reveal=""><source src="images/1 - sharphound.mp4"></video></div></div>
+        
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">8</div></div>
+</section><section class="variable-size-headings has-footer dark section-container present has-dark-background fitted" data-background-color="#2e048f" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-section" style="width: 100%; font-size: 1rem;">
+        <div style="">
+          <h3 id="https:evil.plumbing">https://evil.plumbing</h3>
+
+<p>2023 Archive - MacAdmins 2023 Lab Files</p>
+
+<p><code class="hljs awk">curl https:<span class="hljs-regexp">//</span>evil.plumbing<span class="hljs-regexp">/macadmins2023/</span>lab-file1.zip --output lab-file1.zip</code></p>
+        </div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">9</div></div>
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#340091" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="importing">Importing</h1>
+<div class="single-image-wrapper"><video controls="" class=" size-contain position-center-center" data-paused-by-reveal=""><source src="images/1 - importing.mp4"></video></div></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">10</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#3c0094" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="navigatingbloodhound">Navigating BloodHound</h1></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">11</div></div>
+      
+</section><section class="variable-size-headings has-footer dark v-split-container present has-dark-background fitted" data-background-color="#430097" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-v-split media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="drawdomaintrusts">Draw domain trusts</h1></div>
+        <img src="images/Clipboard_10.png" class=" size-contain position-center-center" style="">
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">12</div></div>
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#4a009a" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="searchingforsomething">Searching for something</h1>
+
+<div class="single-image-wrapper"><img src="images/Clipboard_11.png" class=" size-contain position-center-center"></div></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">13</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#51009c" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="diggingintoauser">Digging into a user</h1></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">14</div></div>
+      
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#560098" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="viewingdetails">Viewing details</h1>
+
+<div class="single-image-wrapper"><img src="images/Clipboard_12.png" class=" size-contain position-center-center"></div></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">15</div></div>
+      
+</section><section class="variable-size-headings has-footer dark grid-container present has-dark-background fitted" data-background-color="#5b0094" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-grid grid-items-3 media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="letssetsometargets">Let's set some targets!</h1></div><div style=""><p>accounting@</p>
+
+<p>hr@</p>
+
+<p>engineering@</p>
+
+<p>legal@</p></div><img src="images/Clipboard_13.png" class=" size-contain position-center-center" style="">
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">16</div></div>
+</section><section class="variable-size-headings has-footer dark v-split-container present has-dark-background fitted" data-background-color="#600090" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-v-split media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="pathtohighvaluetargets">Path to high value targets</h1></div>
+        <div style=""><div class="single-image-wrapper"><img src="images/Clipboard_14.png" class=" size-contain position-center-center"></div>
+
+<p>Too many options.. we'll come back later.</p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">17</div></div>
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#65008c" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="ciphercustomqueries">Cipher/Custom queries</h1>
+
+<p><code class="hljs sql"><span class="hljs-keyword">MATCH</span> p<span class="hljs-operator">=</span>(m:<span class="hljs-keyword">Group</span>)<span class="hljs-operator">-</span>[r:AdminTo]<span class="hljs-operator">-</span><span class="hljs-operator">&gt;</span>(n:Computer) <span class="hljs-keyword">RETURN</span> p</code></p>
+
+<div class="single-image-wrapper"><img src="images/Clipboard_5.png" class=" size-contain position-center-center"></div></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">18</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#690086" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="finduserscreatedinlast30days">Find users created in last 30 days</h1>
+
+<p><code class="hljs sql"><span class="hljs-keyword">MATCH</span> (u:<span class="hljs-keyword">User</span>) <span class="hljs-keyword">where</span> u.enabled<span class="hljs-operator">=</span><span class="hljs-literal">TRUE</span> <span class="hljs-keyword">and</span> u.whencreated  <span class="hljs-operator">&gt;</span> (datetime().epochseconds <span class="hljs-operator">-</span> (<span class="hljs-number">30</span> <span class="hljs-operator">*</span> <span class="hljs-number">86400</span>)) <span class="hljs-keyword">RETURN</span> u</code></p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">19</div></div>
+      
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#6c007f" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default" style="height: 100%; width: 100%; font-size: 0.25rem;">
+        <div style=""><p><code class="hljs elixir">MATCH p=shortestPath((n {<span class="hljs-symbol">owned:</span><span class="hljs-keyword">true</span>})-[<span class="hljs-symbol">:MemberOf|HasSession|AdminTo|AllExtendedRights|AddMember|ForceChangePassword|GenericAll|GenericWrite|Owns|WriteDacl|WriteOwner|CanRDP|ExecuteDCOM|AllowedToDelegate|ReadLAPSPassword|Contains|GpLink|AddAllowedToAct|AllowedToAct|SQLAdmin|ReadGMSAPassword|HasSIDHistory|CanPSRemote*</span><span class="hljs-number">1</span>..<span class="hljs-number">5</span>]-&gt;(m {<span class="hljs-symbol">highvalue:</span><span class="hljs-keyword">true</span>})) WHERE NOT n=m RETURN p</code></p>
+
+<p>I will paste it on Slack.</p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">20</div></div>
+      
+</section><section class="variable-size-headings has-footer dark v-split-container present fit-warning has-dark-background fitted" data-background-color="#6e0079" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-v-split" style="width: 100%; font-size: 0.766rem;">
+        <div style=""><h1 id="kerberoasting">Kerberoasting</h1></div>
+        <div style=""><blockquote class="is-single-quote"><div class="line"></div>
+<p>Kerberoasting is a post-exploitation attack technique that attempts to obtain a password hash of an Active Directory account that has a Service Principal Name (“SPN”). In such an attack, an authenticated domain user requests a Kerberos ticket for an SPN.</p>
+
+<p>TL;DR -&gt; You get a SPN - encrypted with the password of the service account, allowing you to brute-force the password. Service accounts with weak passwords are especially at risk.</p>
+<div class="line"></div></blockquote></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">21</div></div>
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#710072" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="whichkerberoastableaccountisthemostinteresting">Which Kerberoastable account is the most interesting?</h1>
+
+<h2 id="5m">5m</h2></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">22</div></div>
+      
+</section><section class="variable-size-headings has-footer dark v-split-container present has-dark-background fitted" data-background-color="#74006b" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-v-split media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="myanswer">My answer</h1>
+
+<p>Other answers can be good too, so much of the domain is MESSY and RANDOMLY GENERATED: Lynne Newman ..or PRINT_AUTOMATOR.</p></div>
+        <img src="images/Clipboard_7.png" class=" size-contain position-center-center" style="">
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">23</div></div>
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#760063" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="canyouexplainwhy">Can you explain why?</h1></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">24</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#78005b" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="whymighttheyactuallynotbeinterestingatall">Why might they actually not be interesting at all?</h1></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">25</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#7b0054" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="whowouldbeusersthataresimilarlyinteresting">Who would be users that are similarly interesting?</h1></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">26</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#7c004b" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="whydoyouwanttohavemultipletargetsforkerberoasting">Why do you want to have multiple targets for Kerberoasting?</h1></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">27</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#7c003c" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="assumeweownedlynne_newman">Assume we owned Lynne_Newman</h1>
+
+<p>Let's mark her as owned</p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">28</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#7c002e" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="lynne_newmantohighvaluetargets">Lynne_Newman to high value targets</h1>
+
+<p>List her reachable high value targets</p>
+
+<p>Is there something that could be filtered out?</p>
+
+<p>Can you tell me about two paths to domain admin she has?</p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">29</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#7c001f" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="whyisthissysteminteresting">Why is this system interesting?</h1>
+
+<h2 id="bdewdbas1000000">BDEWDBAS1000000</h2></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">30</div></div>
+      
+</section><section class="variable-size-headings has-footer dark full-image-container present has-dark-background fitted" data-background-color="#7c0011" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-full-image media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><div class="single-image-wrapper"><img src="images/Clipboard_15.png" class=" size-contain position-center-center"></div></div>
+        
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">31</div></div>
+</section><section class="variable-size-headings has-footer dark v-split-container present has-dark-background fitted" data-background-color="#83090c" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-v-split media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="whatdoesgenericallevenmean">What does GenericAll even MEAN?</h1></div>
+        <img src="images/Clipboard_8.png" class=" size-contain position-center-center" style="">
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">32</div></div>
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#8b1308" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="markitashighvalue">Mark it as high value</h1>
+
+<p>BDEWDBAS1000000</p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">33</div></div>
+      
+</section><section class="variable-size-headings has-footer dark v-split-container present has-dark-background fitted" data-background-color="#921e05" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-v-split" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="letsaddsomeotherownedaccounts">Let's add some other owned accounts</h1></div>
+        <div style=""><ol>
+<li>George_Bartlett</li>
+<li>Mike_Talley</li>
+<li>Veronica_Lancaster</li>
+</ol></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">34</div></div>
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#9a2801" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="whataresomefunpathswenowhavefromownedassets">What are some fun paths we now have from owned assets?</h1></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">35</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#9e3200" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="idonthaveasinglesolutionletsjusttalkaboutfunpaths">I don't have a single solution, let's just talk about fun paths!</h1></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">36</div></div>
+      
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#a03b00" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="domainuserstohighvaluetargets">Domain users to high value targets</h1>
+
+<p>Sometimes domain users have surprising permissions. At least one is at play... where?</p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">37</div></div>
+      
+</section><section class="variable-size-headings has-footer dark full-image-container present has-dark-background fitted" data-background-color="#a14400" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-full-image media-grid" style="width: 100%; font-size: 1rem;">
+        <div style=""><div class="single-image-wrapper"><img src="images/Clipboard_16.png" class=" size-contain position-center-center"></div></div>
+        
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">38</div></div>
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#a34d00" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default" style="width: 100%; font-size: 1rem;">
+        <div style=""><p>This means anyone can own JIM_BOB and then add users to accounting. Let's mark JIM_BOB as owned!</p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">39</div></div>
+      
+</section><section class="variable-size-headings has-footer dark default-container present has-dark-background fitted" data-background-color="#a35600" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-default" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="bloodhoundandadsecuritylinks">BloodHound and AD Security Links</h1>
+
+<ol>
+<li>https://github.com/ZephrFish/Bloodhound-CustomQueries</li>
+<li>AdSecurity.org</li>
+</ol></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">40</div></div>
+      
+</section><section class="variable-size-headings has-footer dark title-container present has-dark-background fitted" data-background-color="#a15f00" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-title" style="width: 100%; font-size: 1rem;">
+        <div style=""><h2 id="remember">Remember</h2>
+
+<p>BloodHound also works for Azure thingies!</p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">41</div></div>
+      
+</section><section class="variable-size-headings has-footer dark v-split-container present fit-warning has-dark-background fitted" data-background-color="#a06700" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-v-split media-grid" style="width: 100%; font-size: 0.672rem;">
+        <div style=""><h1 id="addictedtographsyet">Addicted to graphs yet?</h1>
+
+<p>https://github.com/JupiterOne/starbase</p>
+
+<p>TONS of integrations! AD, MDMs, EDRs, GitHub, much more!</p>
+
+<p>DEF CON workshop in a few weeks!</p></div>
+        <img src="images/Clipboard_6.png" class=" size-contain position-center-center" style="">
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">42</div></div>
+</section><section class="variable-size-headings has-footer dark cover-container present has-dark-background fitted" data-background-color="#9e7000" data-updated="true" style="display: grid;">
+
+      <div class="header"><div class="leading"></div><div class="middle"></div><div class="trailing"></div></div>
+      <div class="layout-cover" style="width: 100%; font-size: 1rem;">
+        <div style=""><h1 id="thankyouall">Thank you all!</h1>
+
+<p>Thanks for your time!</p>
+
+<p>Hope you're all addicted to graph security analysis</p>
+
+<p>Catch Guillaume on Mastodon: @g@irrelephant.co</p>
+
+<p>Catch Adam on ... in the hallway! </p></div>
+      </div>
+      <div class="footnotes"></div>
+      <div class="footer"><div class="leading"></div><div class="middle"></div><div class="trailing">43</div></div>
+      
+</section></div>
+    </div>
+    <script src="engine/index.js"></script>
+    <!--<script src="engine/d3v4.min.js" charset="utf-8"></script>
+    <script src="engine/charts.min.js" charset="utf-8"></script>
+    <script src="engine/billboard.min.js"></script>-->
+    <script src="engine/pptxgen.min.js"></script>
+                                                   <script src="engine/pfill.js"></script>
+    <script src="engine/published.js"></script>
+
+    <script>
+      Reveal.configure({
+        progress: true,
+        keyboard: true,
+        dependencies: [
+          {
+            src: "engine/highlight.js",
+            sync: true,
+            callback: function () {
+              hljs.initHighlightingOnLoad();
+            },
+          },
+        ],
+      });
+    </script>
+  </body>
+</html>
