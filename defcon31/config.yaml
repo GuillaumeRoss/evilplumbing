@@ -1,0 +1,18 @@
+integrations:
+  -
+    name: graph-microsoft-active-directory
+    instanceId: defconTestInstance
+    directory: ./.integrations/graph-microsoft-active-directory
+    gitRemoteUrl: https://github.com/JupiterOne/graph-microsoft-active-directory.git
+    config:
+      LDAP_URL: ldap://40.121.53.175
+      BASE_DN: dc=psumac,dc=local
+      AD_USERNAME: psumac\starbase
+      AD_PASSWORD: Password123
+storage:
+  -
+    engine: neo4j
+    config:
+      username: neo4j
+      password: devpass
+      uri: bolt://localhost:7687
